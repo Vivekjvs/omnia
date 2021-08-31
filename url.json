@@ -1,0 +1,4 @@
+{
+    "cf_userinfo":"https://codeforces.com/api/user.info?handles=",
+    "cf_problems":"https://codeforces.com/api/user.status?handle="
+}
