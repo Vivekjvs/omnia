@@ -1,0 +1,100 @@
+create database CodingProfilesFeedback;
+
+use codingProfileFeedback;
+
+create table userDetails
+(
+userId varchar(20)	primary key,
+userPassword varchar(15),
+codechefHandle varchar(30) DEFAULT "",	
+codeforcesHandle varchar(30) DEFAULT "",
+interviewbitHandle  varchar(30) DEFAULT "",
+leetCodeHandle varchar(30) DEFAULT "",
+spojHandle varchar(30) DEFAULT ""
+);
+
+use codingProfileFeedback;
+create table userSubmissions
+(
+    userId	varchar(20) primary key,
+    Accepted int,
+    WrongAnswer int,
+    TimeLimitExceed int,
+    CompilationError int,
+    RunTimeError int
+);
+
+use codingProfileFeedback;
+create table leaderboardTable
+(
+    userId varchar(20) primary key,
+    codechef int,
+    codeforces int,
+    interviewbit int,
+    spoj int,
+    leetcode int,
+    overallScore int
+);
+
+use codingProfileFeedback;
+create table contestDetails
+(
+	contestId 	varchar(35) primary key,
+	contestName varchar(60),
+	ContestTimeStamp bigint
+);
+
+use codingProfileFeedback;
+create table userContestDetails
+(
+    userId varchar(20),
+    platform  varchar(15),
+    contestId  varchar(35),
+    contestRank int,
+    contestRating int,
+    newRating int,
+    primary key(userId,platform,contestId)
+);
+
+
+use codingProfileFeedback;
+create table problemDetails
+(
+	problemId  varchar(20) primary key,
+	problemName varchar(50),
+	problemLink varchar(60)
+);
+
+use codingProfileFeedback;
+CREATE table userProblemDetails(
+    userId varchar(20),
+    problemId varchar(20),
+    verdict varchar(25),
+    binarySearch boolean,
+    binaryTree boolean,
+    matrices boolean,
+    arrays boolean,
+    probabilities boolean,
+    implementation boolean,
+    math boolean,
+    backtracking boolean,
+    numberTheory boolean,
+    divideAndConquer boolean,
+    bruteforce boolean,
+    dp boolean,
+    graphs boolean,
+    trees boolean,
+    dfs boolean,
+    bfs boolean,
+    bitManipulation boolean,
+    strings boolean,
+    dataStructures boolean,
+    games boolean,
+    greedy boolean,
+    hashing boolean,
+    sorting boolean,
+    twopointers boolean,
+    Others boolean,
+    PRIMARY KEY(userId,problemId,verdict)  
+);
+
