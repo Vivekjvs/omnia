@@ -1,6 +1,6 @@
 create database CodingProfilesFeedback;
 
-use codingProfileFeedback;
+use CodingProfilesFeedback;
 
 create table userDetails
 (
@@ -13,7 +13,7 @@ leetCodeHandle varchar(30) DEFAULT "",
 spojHandle varchar(30) DEFAULT ""
 );
 
-use codingProfileFeedback;
+
 create table userSubmissions
 (
     userId	varchar(20) primary key,
@@ -24,7 +24,7 @@ create table userSubmissions
     RunTimeError int
 );
 
-use codingProfileFeedback;
+
 create table leaderboardTable
 (
     userId varchar(20) primary key,
@@ -36,7 +36,7 @@ create table leaderboardTable
     overallScore int
 );
 
-use codingProfileFeedback;
+
 create table contestDetails
 (
 	contestId 	varchar(35) primary key,
@@ -44,7 +44,7 @@ create table contestDetails
 	ContestTimeStamp bigint
 );
 
-use codingProfileFeedback;
+
 create table userContestDetails
 (
     userId varchar(20),
@@ -57,7 +57,7 @@ create table userContestDetails
 );
 
 
-use codingProfileFeedback;
+
 create table problemDetails
 (
 	problemId  varchar(20) primary key,
