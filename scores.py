@@ -3,14 +3,17 @@ import requests
 from AdminDatabase import *
 
 def getCodeforcesRating(codeforcesHandle):
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codeforces/{codeforcesHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
+    try:
+        profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codeforces/{codeforcesHandle}"
+        req = requests.get(profileUrl)
+        jsonData = json.loads(req.content)
 
-    rating = jsonData["rating"]
+        rating = jsonData["rating"]
 
-    req.close()
-    return rating
+        req.close()
+        return int(rating)
+    except:
+        return 0
 
 def getCodechefRating(codechefsHandle):
     profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefsHandle}"
@@ -25,41 +28,46 @@ def getCodechefRating(codechefsHandle):
     return rating
 
 def getInterviewBitRating(inerviewbitHandle):
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/interviewbit/{inerviewbitHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
-    score = int(jsonData["score"])
-    req.close()
-    return score//10
+    try:
+        profileUrl = f"https://competitive-coding-api.herokuapp.com/api/interviewbit/{inerviewbitHandle}"
+        req = requests.get(profileUrl)
+        jsonData = json.loads(req.content)
+        score = int(jsonData["score"])
+        req.close()
+        return score//10
+    except:
+        return 0
     
 
 def getSpojRating(spojHandle):
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/spoj/{spojHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
-    points = float(jsonData["points"])
+    try:
+        profileUrl = f"https://competitive-coding-api.herokuapp.com/api/spoj/{spojHandle}"
+        req = requests.get(profileUrl)
+        jsonData = json.loads(req.content)
+        points = float(jsonData["points"])
+        submissions = len(jsonData["solved"])
 
-    profileUrl = f"http://all-cp-platforms-api.herokuapp.com/api/spoj/{spojHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
-    submissions = int(jsonData["Problems solved"])
-
-    rating = points*500+submissions*10
-    req.close()
-    return int(rating)
+        rating = points*500+submissions*10
+        req.close()
+        return int(rating)
+    except:
+        return 0
     
 def getLeetcodeRating(leetcodeHandle):
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/leetcode/{leetcodeHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
+    try:    
+        profileUrl = f"https://competitive-coding-api.herokuapp.com/api/leetcode/{leetcodeHandle}"
+        req = requests.get(profileUrl)
+        jsonData = json.loads(req.content)
 
-    totalProblemsSolved = int(jsonData["total_problems_solved"])
+        totalProblemsSolved = int(jsonData["total_problems_solved"])
 
-    contributionPoints = int(jsonData["contribution_points"])
+        contributionPoints = int(jsonData["contribution_points"])
 
-    rating = contributionPoints + totalProblemsSolved*10
-    req.close()
-    return int(rating)
+        rating = contributionPoints + totalProblemsSolved*10
+        req.close()
+        return int(rating)
+    except:
+        return 0
     
 def getOverAllRating(codeforcesRating,codechefRating,interviewBitRating,spojRating,leetcodeRating):
     return sum([codeforcesRating,codechefRating,interviewBitRating,spojRating,leetcodeRating])

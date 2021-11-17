@@ -7,7 +7,7 @@ def connectdatabase():
     user="srikar23",
     port = 3305,
     password="Srikar@23",
-    database = "codingProfileFeedback"
+    database = "codingprofilesfeedback"
   )
 
   mycursor = mydb.cursor()
