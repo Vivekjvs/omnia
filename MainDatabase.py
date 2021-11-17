@@ -1,4 +1,5 @@
 from database import connectdatabase
+import scores,codeforcesScrap
 
 def isValidAdmin(userId,Password):
     mydb,mycursor = connectdatabase()
@@ -73,10 +74,10 @@ def isValidStudent(userId,password):
     else:
         return "successfull"
     
-def addStudent(userId,password,codechef,codeforces):
+def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'select userId,userpassword from userdetails where userId="{userId}"'
+    selectStatement = f'select userId,userpassword from userdetails where userId="{adminId}"'
   
     #returning none when there is no such user exists
     try:
@@ -88,7 +89,7 @@ def addStudent(userId,password,codechef,codeforces):
     
     myresult = mycursor.fetchall()
     if(len(myresult) == 0):
-        insertStatement = f'insert Ignore into userdetails(userId,userPassword,codechefHandle,codeforcesHandle) values("{userId}","{password}","{codechef}","{codeforces}")'
+        insertStatement = f'insert Ignore into userdetails(userId,userPassword,codechefHandle,codeforcesHandle,interviewbitHandle,spojHandle,leetCodeHandle,email,phone) values("{adminId}","{password}","{codechef}","{codeforces}","{InterviewBit}","{spoj}","{leetcode}","{email}","{phone}")'
   
         #returning none when there is no such user exists
         try:
@@ -97,6 +98,8 @@ def addStudent(userId,password,codechef,codeforces):
             print(msg)
             return "failed!!"
         mydb.commit()
+        scores.updateScore()
+        codeforcesScrap.main(adminId)
         return "Successfull!!!"
     else:
         return "User Aleady Exists"

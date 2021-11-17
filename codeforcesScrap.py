@@ -140,11 +140,11 @@ def updateUserContestDetails(userid,codeforcesHandle):
 
     print("userContestDetails: All user contest details of codeforces are updated")
 
-    
-if __name__ == "__main__":
+
+def main(userid):
 
     #Taking userId of our website 
-    userid = input('Please enter your userid\n').strip()
+
     codeforcesHandle = ""
     try:
         #Retriving 

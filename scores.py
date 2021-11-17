@@ -8,19 +8,22 @@ def getCodeforcesRating(codeforcesHandle):
         req = requests.get(profileUrl)
         jsonData = json.loads(req.content)
 
-        rating = jsonData["rating"]
+        rating = jsonData['rating']
 
         req.close()
         return int(rating)
     except:
         return 0
 
-def getCodechefRating(codechefsHandle):
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefsHandle}"
+def getCodechefRating(codechefHandle):
+    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefHandle}"
     req = requests.get(profileUrl)
     jsonData = json.loads(req.content)
+    print(jsonData)
 
-    rating = int(jsonData["rating"])
+    rating = 0
+    print(jsonData['rating'])
+
     totalsolved = int(jsonData["fully_solved"]["count"])
     rating = rating + totalsolved*20
 

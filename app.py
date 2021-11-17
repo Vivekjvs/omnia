@@ -81,11 +81,17 @@ def studentRegistration():
         # getting input with name = password in HTML form 
         password = request.form.get("password")
         # getting input with name = email  in HTML form 
-        codechef = request.form.get("codechef")
+        codechef = request.form.get("Codechef")
         # getting input with name = email  in HTML form 
-        codeforces = request.form.get("codeforces") 
+        codeforces = request.form.get("Codeforces") 
 
-        return addStudent(adminId,password,codechef,codeforces)
+        InterviewBit = request.form.get("InterviewBit")
+        spoj = request.form.get("SPOJ")
+        leetcode = request.form.get("Leetcode")
+        email = request.form.get("email")
+        phone = request.form.get("Phone")
+
+        return addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone)
 
 
 if __name__ == "__main__":
