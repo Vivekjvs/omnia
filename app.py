@@ -52,10 +52,13 @@ def studentValidate():
 
         status = isValidStudent(adminId,password)
         if status=="successfull":
-            return redirect("/leaderboard")
+            return redirect("/dashboard")
         # return "successfull"
     return None
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 @app.route('/leaderboard')
 def table():
@@ -91,8 +94,10 @@ def studentRegistration():
         email = request.form.get("email")
         phone = request.form.get("Phone")
 
-        return addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone)
-
+        status = addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone)
+        if(status == "Successfull!!!"):
+            return render_template('stu_login.html')
+        return status
 
 if __name__ == "__main__":
     app.run(debug=True)

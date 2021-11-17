@@ -4,7 +4,7 @@ import scores,codeforcesScrap
 def isValidAdmin(userId,Password):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'select userid,password from adminDetails where userId="{userId}"'
+    selectStatement = f'select userid,password from admindetails where userId="{userId}"'
   
     #returning none when there is no such user exists
     try:
@@ -26,7 +26,7 @@ def isValidAdmin(userId,Password):
 def addAdmin(adminId,password,email):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'select userid,password from adminDetails where userId="{adminId}"'
+    selectStatement = f'select userid,password from admindetails where userId="{adminId}"'
   
     #returning none when there is no such user exists
     try:
