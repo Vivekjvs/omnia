@@ -10,7 +10,9 @@ codechefHandle varchar(30) DEFAULT "",
 codeforcesHandle varchar(30) DEFAULT "",
 interviewbitHandle  varchar(30) DEFAULT "",
 leetCodeHandle varchar(30) DEFAULT "",
-spojHandle varchar(30) DEFAULT ""
+spojHandle varchar(30) DEFAULT "",
+email varchar(30),
+phone varchar(10)
 );
 
 
@@ -65,7 +67,6 @@ create table problemDetails
 	problemLink varchar(60)
 );
 
-use codingProfileFeedback;
 CREATE table userProblemDetails(
     userId varchar(20),
     problemId varchar(20),
