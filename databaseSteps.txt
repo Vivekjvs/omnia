@@ -99,3 +99,8 @@ CREATE table userProblemDetails(
     PRIMARY KEY(userId,problemId,verdict)  
 );
 
+create table admindetails(
+	adminId varchar(20) primary key, 
+	password varchar(15),
+	email varchar(30)
+);
