@@ -1,10 +1,10 @@
 from database import connectdatabase
 import scores,codeforcesScrap
 
-def isValidAdmin(userId,Password):
+def isValidAdmin(adminId,Password):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'select userid,password from admindetails where userId="{userId}"'
+    selectStatement = f'select adminId,password from admindetails where adminId="{adminId}"'
   
     #returning none when there is no such user exists
     try:

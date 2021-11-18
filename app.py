@@ -20,7 +20,11 @@ def facultyValidate():
         # getting input with name = password in HTML form 
         password = request.form.get("password")
 
-        return isValidAdmin(adminId,password)
+        verdict =  isValidAdmin(adminId,password)
+        print(verdict)
+        if(verdict == "successfull"):
+            return redirect('/adminLeaderboard')
+        return verdict
 
 @app.route('/fac_register.html', methods =["GET", "POST"])
 def facultySignUp():
@@ -71,6 +75,18 @@ def table():
 
     print(data)
     return render_template('leaderboard.html',headings=headings,data=data)
+
+@app.route('/adminLeaderboard')
+def admintable():
+    mydb,mycursor = connectdatabase()
+    statement = "select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId order by a.overallScore desc"
+    mycursor.execute(statement)
+    data = mycursor.fetchall()
+    data = tuple(data)
+    headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
+
+    print(data)
+    return render_template('admin_leaderboard.html',headings=headings,data=data)
 
 @app.route('/stu_register.html')
 def studentSignUp():
