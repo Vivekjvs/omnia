@@ -29,13 +29,15 @@ create table userSubmissions
 
 create table leaderboardTable
 (
-    userId varchar(20) primary key,
+    userId varchar(20),
     codechef int,
     codeforces int,
     interviewbit int,
     spoj int,
     leetcode int,
-    overallScore int
+    overallScore int,
+    scoredDate date,
+    primary key(userId,scoredDate)
 );
 
 
