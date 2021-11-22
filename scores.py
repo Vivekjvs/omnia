@@ -1,6 +1,7 @@
-import json
-import requests
+from datetime import date
 from AdminDatabase import *
+import requests
+import json
 
 def getCodeforcesRating(codeforcesHandle):
     try:
@@ -8,7 +9,7 @@ def getCodeforcesRating(codeforcesHandle):
         req = requests.get(profileUrl)
         jsonData = json.loads(req.content)
 
-        rating = jsonData['rating']
+        rating = int(jsonData['rating'])
 
         req.close()
         return int(rating)
@@ -16,13 +17,14 @@ def getCodeforcesRating(codeforcesHandle):
         return 0
 
 def getCodechefRating(codechefHandle):
+
     profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefHandle}"
     req = requests.get(profileUrl)
     jsonData = json.loads(req.content)
-    print(jsonData)
+    #print(jsonData)
 
-    rating = 0
-    print(jsonData['rating'])
+    rating = int(jsonData['rating'])
+    rating = (((rating-1300)**2)//30)
 
     totalsolved = int(jsonData["fully_solved"]["count"])
     rating = rating + totalsolved*20
@@ -97,8 +99,10 @@ def updateScore():
         #calculating overall score
         overAllRating = getOverAllRating(codeforcesRating,codechefRating,interviewBitRating,spojRating,leetcodeRating)
 
+        currentDate = date.today().strftime("%Y-%m-%d")
+        print(currentDate)
         #to update the values in the database table
-        updateLeaderBoard(userId,codechefRating,codeforcesRating,interviewBitRating,leetcodeRating,spojRating,overAllRating)
+        updateLeaderBoard(userId,codechefRating,codeforcesRating,interviewBitRating,leetcodeRating,spojRating,overAllRating,currentDate)
         print(f"userid:{userId}\ncodeforces: {codeforcesRating}\ncodechef:{codechefRating}\ninterview bit:{interviewBitRating}\nspoj:{spojRating}\nleetcode:{leetcodeRating}\noverall:{overAllRating}\n")
 
 if __name__ == "__main__":

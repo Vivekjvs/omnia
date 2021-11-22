@@ -1,17 +1,6 @@
 import mysql.connector
+from database import connectdatabase
 
-#To connect to the Database
-def connectdatabase():
-  mydb = mysql.connector.connect(
-    host="localhost",
-    user="srikar23",
-    port = 3305,
-    password="Srikar@23",
-    database = "codingprofilesfeedback"
-  )
-
-  mycursor = mydb.cursor()
-  return mydb,mycursor
 
 #To add the count of each verdict into the database Table
 def addToSubmissionsInDb(userId,submissionCount):

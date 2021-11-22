@@ -27,29 +27,16 @@ def getUserHandles(userId):
 
   return res
 
-def updateLeaderBoard(userid,codechefRating,codeforcesRating,interviewBitRating,leetcodeRating,spojRating,overAllRating):
+def updateLeaderBoard(userid,codechefRating,codeforcesRating,interviewBitRating,leetcodeRating,spojRating,overAllRating,currentDate):
   mydb,mycursor = connectdatabase()
 
-  #checkng whether user exists or not
-  mycursor.execute(f"SELECT userid FROM leaderboardTable WHERE userId = '{userid}'")
-  data=mycursor.fetchall()
-  userdoesntExists = (len(data)==0)
-
   try:
-    if userdoesntExists:
       #inserting the scores of each platform with given data into the database table
-      insertStatement = f'insert into leaderboardTable values("{userid}",{codechefRating},{codeforcesRating},{interviewBitRating},{spojRating},{leetcodeRating},{overAllRating})'
+      insertStatement = f'insert ignore into leaderboardTable values("{userid}",{codechefRating},{codeforcesRating},{interviewBitRating},{spojRating},{leetcodeRating},{overAllRating},"{currentDate}")'
       mycursor.execute(insertStatement)
       print("inserted!!")
-
-    else:
-      #updating the scores of each platform with given data in the database table
-      updataeStatement = f'update leaderboardtable set codechef={codechefRating},codeforces={codeforcesRating},interviewbit={interviewBitRating},spoj={spojRating},leetcode={leetcodeRating},overallScore={overAllRating} where userId="{userid}"'
-      mycursor.execute(updataeStatement)
-      print("updated!!!")
-
   except:
-    print("Error while updating or inserting")
+    print("Error while inserting")
 
   mydb.commit()
 
