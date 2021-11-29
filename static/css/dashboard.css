@@ -5,16 +5,19 @@
 }
 
 .main{
-    font-size: 10rem;
+    font-size: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 .sub-head{
-    font-size: 2rem;
+    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+.card{
+    margin: 20px;
 }
