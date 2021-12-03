@@ -1,0 +1,60 @@
+from logging import debug
+from types import MethodType
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+import json
+import time
+
+app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '4321'
+app.config['MYSQL_DB'] = 'codingprofilesfeedback'
+
+mysql = MySQL(app)
+
+
+@app.route("/chart/<userid>", methods=['GET','POST'])
+def index(userid):
+    #if MethodType == 'GET' or MethodType == 'POST':
+        uid = userid
+        cursor = mysql.connection.cursor();
+        cursor.execute("SELECT `Accepted`,`WrongAnswer`,`TimeLimitExceed`,`CompilationError`,`RunTimeError` FROM usersubmissions WHERE userId LIKE  %s",[uid])
+        data = cursor.fetchall()
+        values = list(data)
+        
+        cursor = mysql.connection.cursor();
+        cursor.execute('SELECT b.ContestTimeStamp FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid]);
+        lab = cursor.fetchall()
+        cursor2 = mysql.connection.cursor();
+        cursor2.execute('SELECT a.contestRating FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid])
+        val = cursor2.fetchall()
+        #-------------
+        labels = ["Accepted","WrongAnswer","TimeLimitExceed","CompilationError","RunTimeError"]
+
+        cursor = mysql.connection.cursor();
+        cursor.execute("SELECT * FROM leaderboardtable WHERE userId LIKE %s",[uid])
+        leader = cursor.fetchall()
+
+
+        return render_template("chart.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid)
+
+@app.route('/index/<userid>', methods=['GET','POST'])
+def main(userid):
+    uid = userid
+    cursor = mysql.connection.cursor();
+    cursor.execute('SELECT b.ContestTimeStamp FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid]);
+    lab = cursor.fetchall()
+    
+    cursor2 = mysql.connection.cursor();
+    cursor2.execute('SELECT a.contestRating FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid])
+    val = cursor2.fetchall()
+
+    return render_template("index.html",lab=lab, val=val)
+
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
