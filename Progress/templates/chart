@@ -39,6 +39,7 @@
           <div class="container my-5">
               <div class="row">
                 <div class="col">
+                      <h2 >Submissions</h2>
                       <canvas class="shadow-sm p-3 mb-5 bg-body rounded" id="myChart" width="500" height="400"></canvas>
                 </div>
                 <div class="col">
@@ -62,17 +63,280 @@
                           </tr>
                         </tbody>
                     </table>
-                </div>
+                  </div>
               </div>
               <div class="row mt-5">
                 <div class="col">
+                  <h1 class="display text-center">Rating History</h1>
                   <canvas class="shadow p-3 mb-5 bg-body rounded" id="graphChart" width="2000" height="1000"></canvas>
                 </div>
                 <div class="col">
 
                 </div>
-                <div class="col">
-                  
+                <div class="row">
+                  <h1 class="display text-center">Problem Solved</h1>
+                  <table class="table">
+                    <tbody>
+                        {% if bs|length > 0 %}
+                            
+                        <tr>
+                            <th scope="row">{{tags[0]}}</th>
+                            <td>
+                                {% for id in bs %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                            
+                        </tr>
+                        {% endif %}
+                        {% if bt|length > 0 %}
+                            
+                        <tr>
+                            <th scope="row">{{tags[1]}}</th>
+                            <td>
+                                {% for id in bt %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+    
+                        {% if mat|length > 0 %}
+                            
+                        <tr>
+                            <th scope="row">{{tags[2]}}</th>
+                            <td>
+                                {% for id in mat %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if arr|length > 0 %}
+                            
+                        <tr>
+                            <th scope="row">{{tags[3]}}</th>
+                            <td>
+                                {% for id in arr %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if prob|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[4]}}</th>
+                                <td>
+                                    {% for id in prob %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th scope="row">{{tags[5]}}</th>
+                            <td>
+                                {% for id in implementation %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{tags[6]}}</th>
+                            <td>
+                                {% for id in math %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% if backtracking|length > 0 %}
+                            
+                        <tr>
+                            <th scope="row">{{tags[7]}}</th>
+                            <td>
+                                {% for id in backtracking %}
+                                    <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if number|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[8]}}</th>
+                                <td>
+                                    {% for id in number %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+    
+                        {% if dandc|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[9]}}</th>
+                                <td>
+                                    {% for id in dandc %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+    
+                        {% if brute|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[10]}}</th>
+                                <td>
+                                    {% for id in brute %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+    
+                        <!-- ------------------ -->
+                        {% if dp|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[11]}}</th>
+                                <td>
+                                    {% for id in dp %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if graph|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[12]}}</th>
+                                <td>
+                                    {% for id in graph %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if trees|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[13]}}</th>
+                                <td>
+                                    {% for id in trees %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if dfs|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[14]}}</th>
+                                <td>
+                                    {% for id in dfs %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if bfs|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[15]}}</th>
+                                <td>
+                                    {% for id in bfs %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if bit|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[16]}}</th>
+                                <td>
+                                    {% for id in bit %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if strings|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[17]}}</th>
+                                <td>
+                                    {% for id in strings %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if ds|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[18]}}</th>
+                                <td>
+                                    {% for id in ds %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if games|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[19]}}</th>
+                                <td>
+                                    {% for id in games %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if greedy|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[20]}}</th>
+                                <td>
+                                    {% for id in greedy %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if hashing|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[21]}}</th>
+                                <td>
+                                    {% for id in hashing %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if sorting|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[22]}}</th>
+                                <td>
+                                    {% for id in sorting %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if tp|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[23]}}</th>
+                                <td>
+                                    {% for id in tp %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if others|length > 0 %}
+                            <tr>
+                                <th scope="row">{{tags[24]}}</th>
+                                <td>
+                                    {% for id in others %}
+                                        <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                
+                  </table>
                 </div>
               </div>
           </div>
