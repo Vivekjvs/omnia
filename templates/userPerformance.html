@@ -1,0 +1,191 @@
+{% extends 'basePage.html' %}
+
+{% block title %}
+    {{uid}} Performance
+{% endblock %}
+
+{% block content %}
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="path/to/chartjs/dist/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="../static/js/Chart.min.js"></script>
+
+    <h1 class="display-3 text-center">Welcome {{uid}}</h1>
+          <div class="container my-5">
+              <div class="row">
+                <div class="col">
+                      <h2 >Submissions</h2>
+                      <canvas class="shadow-sm p-3 mb-5 bg-body rounded" id="myChart" width="500" height="400"></canvas>
+                </div>
+                <div class="col">
+                    <table class="table shadow-sm p-3 mb-5 bg-body rounded ">
+                        <thead>
+                          <tr>
+                            <th scope="col">Codechef</th>
+                            <th scope="col">Codeforces</th>
+                            <th scope="col">InterviewBit</th>
+                            <th scope="col">SPOJ</th>
+                            <th scope="col">Leetcode</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{{leader[0][1]}}</td>
+                            <td>{{leader[0][2]}}</td>
+                            <td>{{leader[0][3]}}</td>
+                            <td>{{leader[0][4]}}</td>
+                            <td>{{leader[0][5]}}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col">
+                  <h1 class="display text-center">Rating History</h1>
+                  <canvas class="shadow p-3 mb-5 bg-body rounded" id="graphChart" width="2000" height="1000"></canvas>
+                </div>
+                <div class="col">
+
+                </div>
+                <div class="row">
+                  <h1 class="display text-center">Problem Solved</h1>
+                  <table class="table">
+                    <tbody>
+                        
+                        {% for ind in range(25) %}
+                            
+                            {% if problemsSolved[ind]|length > 0 %}
+                                <tr>
+                                    <th scope="row">{{tags[ind]}}</th>
+                                    <td>
+                                        {% for id in problemsSolved[ind] %}
+                                            <a href={{id[2]}} target="_blank">{{id[0]}} |</a>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            
+                        {% endfor %}
+                            
+                    </tbody>
+                
+                  </table>
+                </div>
+              </div>
+          </div>
+        <div class="container">
+            
+        </div>
+      <script>
+            var canvas = document.getElementById("myChart");
+            var ctx = canvas.getContext('2d');
+
+            var data = {
+                labels: [{% for item in labels %}
+                 "{{item|safe}}",
+                 {% endfor %}],
+                datasets: [
+                    {
+                        fill: true,
+                        backgroundColor: [
+                        "rgb(76,175,80)",
+                            'Red',
+                            'Blue',
+                            'Orange',
+                        'Purple'],
+                        hoverOffset : 4,
+                       
+                        data: [{% for item in values[0] %}
+                            {{item|safe}},
+                            {% endfor %}],
+            // Notice the borderColor 
+                        borderColor:	['black', 'black'],
+                        borderWidth: [2,2]
+                    }
+                ]
+            };
+
+            // Notice the rotation from the documentation.
+            text = 'Your contest Performance';
+            var options = {
+                    title: {
+                            display: true,
+                            text: 'Your Contest Performance',
+                            position: 'top'
+                        },
+                        responsive : false
+            };
+
+
+            // Chart declaration:
+            var myPieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: options
+            });
+      </script>
+      <script>
+            var canvass = document.getElementById("graphChart");
+            var context = canvass.getContext('2d');
+
+            const glabels = [{% for item in lab %}
+                 "{{item[0]|safe}}",
+                 {% endfor %}];
+                const gdata = {
+                labels: glabels,
+                datasets: [{
+                    label:'Your growth',
+                    //backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [{% for item in val %}
+                            {{item[0]|safe}},
+                            {% endfor %}],
+                }]
+            };
+
+            const configuration = {
+                type: 'line',
+                data: gdata,
+                options: {
+                  scales: {
+                            yAxes: [
+                            {
+                                stacked: true,
+                                gridLines: {
+                                display: true,
+                                color: "rgba(255,99,132,0.2)"
+                                },
+                                ticks: {
+                                suggestedMax: 100,
+                                suggestedMin: -10
+                                }
+                            }
+                            ],
+                            xAxes: [
+                            {
+                                gridLines: {
+                                display: false
+                                }
+                            }
+                            ]
+                        }},
+                        responsive : false,
+                        
+            };
+            
+            const chart = new Chart(
+                document.getElementById('graphChart'),
+                configuration
+            );
+      </script>
+        
+   
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+   
+
+      {% endblock %}
