@@ -10,7 +10,7 @@ def isValidAdmin(adminId,Password):
     try:
         mycursor.execute(selectStatement)
     except Exception as msg:
-        print(msg)
+        #print(msg)
         return None
 
     
@@ -32,7 +32,7 @@ def addAdmin(adminId,password,email):
     try:
         mycursor.execute(selectStatement)
     except Exception as msg:
-        print(msg)
+        #print(msg)
         return None
 
     
@@ -61,7 +61,7 @@ def isValidStudent(userId,password):
     try:
         mycursor.execute(selectStatement)
     except Exception as msg:
-        print(msg)
+        #print(msg)
         return "Error"
 
     
@@ -83,7 +83,7 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
     try:
         mycursor.execute(selectStatement)
     except Exception as msg:
-        print(msg)
+        #print(msg)
         return "Error"
 
     

@@ -11,7 +11,7 @@ def getUserHandles(userId):
   try:
     mycursor.execute(selectStatement)
   except Exception as msg:
-    print(msg)
+    #print(msg)
     return None
   
   myresult = mycursor.fetchall()
@@ -33,9 +33,10 @@ def updateLeaderBoard(userid,codechefRating,codeforcesRating,interviewBitRating,
       #inserting the scores of each platform with given data into the database table
       insertStatement = f'insert ignore into leaderboardTable values("{userid}",{codechefRating},{codeforcesRating},{interviewBitRating},{spojRating},{leetcodeRating},{overAllRating},"{currentDate}")'
       mycursor.execute(insertStatement)
-      print("inserted!!")
+      #print("inserted!!")
   except:
-    print("Error while inserting")
+    pass
+    #print("Error while inserting")
 
   mydb.commit()
 

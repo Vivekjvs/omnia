@@ -215,6 +215,15 @@ def updatePlatformDetails():
     while(True):
         updateCodeforcesProblems_Contests()
         time.sleep(7*24*60*60)
+
+@app.route('/logout')
+def logout():
+    if "user" in session:
+        session.pop("user",None)
+    if "faculty" in session:
+        session.pop("faculty",None)
+    return redirect('/')
+
 if __name__ == "__main__":
     leaderBoardUpdationThread = threading.Thread(target=updateLeaderBoard)
     leaderBoardUpdationThread.start()

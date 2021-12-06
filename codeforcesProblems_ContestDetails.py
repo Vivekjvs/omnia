@@ -18,7 +18,7 @@ def updateAllContestDetails():
         #Method is in CodeforcesDatabase.py
         addToContestDetails("codeforces"+str(contestId),contestName,contestStartTime)
     
-    print("updateAllContestDetails: All the contest details of codeforces are updated")
+    #print("updateAllContestDetails: All the contest details of codeforces are updated")
 
 def updateAllProblemDetails():
 
@@ -38,7 +38,7 @@ def updateAllProblemDetails():
         #Adding problem details to database Table
         #Method is in CodeforcesDatabase.py
         addToProblemDetails(problemId,problemName,problemLink)
-    print("updateAllProblemDetails: All the problem details of codeforces are updated")
+    #print("updateAllProblemDetails: All the problem details of codeforces are updated")
 
 def updateCodeforcesProblems_Contests():
 
