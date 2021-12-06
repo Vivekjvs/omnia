@@ -17,16 +17,11 @@ currentDate = date.today().strftime("%Y-%m-%d")
 
 @app.route('/')
 def home():
-    if "user" in session:
-        session.pop("user",None)
-    if "faculty" in session:
-        session.pop("faculty",None)
     return render_template('home.html') 
 
 @app.route('/fac_login.html')
 def facultyLogin():
     return render_template('fac_login.html')
-
 
 @app.route('/fac_login.html/validate', methods =["GET", "POST"])
 def facultyValidate():
@@ -62,7 +57,7 @@ def facultyRegistration():
 
 @app.route('/stu_login.html')
 def studentLogin():
-    if "user" in session:
+    if session.get("user") is not None:
         return redirect('/dashboard')
     return render_template('stu_login.html')
 
@@ -84,14 +79,14 @@ def studentValidate():
 
 @app.route('/dashboard', methods =["GET", "POST"])
 def dashboard():
-    if "user" in session:
+    if session.get("user") is not None:
         return render_template('dashboard.html')
     return redirect('/')
 
 
 @app.route('/leaderboard',methods =["GET", "POST"])
 def table():
-    if "user" in session:
+    if session.get("user") is not None:
         mydb,mycursor = connectdatabase()
         statement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{currentDate}" order by overallScore desc '
         mycursor.execute(statement)
@@ -103,7 +98,7 @@ def table():
 
 @app.route('/adminLeaderboard', methods =["GET", "POST"])
 def admintable():
-    if "faculty" in session:
+    if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
         statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc '
         mycursor.execute(statement)
@@ -116,7 +111,7 @@ def admintable():
 
 @app.route('/adminLeaderboardFilter', methods =["GET", "POST"])
 def adminFiltertable():
-    if "faculty" in session:
+    if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
         if request.method == "POST":
             # getting input with name = user_name in HTML form 

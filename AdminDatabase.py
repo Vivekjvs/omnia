@@ -13,7 +13,6 @@ def getUserHandles(userId):
   except Exception as msg:
     print(msg)
     return None
-
   
   myresult = mycursor.fetchall()
   if(len(myresult) == 0):
