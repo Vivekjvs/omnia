@@ -17,10 +17,6 @@ currentDate = date.today().strftime("%Y-%m-%d")
 
 @app.route('/')
 def home():
-    if "user" in session:
-        session.pop("user",None)
-    if "faculty" in session:
-        session.pop("faculty",None)
     return render_template('home.html') 
 
 @app.route('/fac_login.html')
@@ -91,7 +87,7 @@ def dashboard():
 
 @app.route('/leaderboard',methods =["GET", "POST"])
 def table():
-    if "user" in session:
+    if session.get("user") is not None:
         mydb,mycursor = connectdatabase()
         statement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{currentDate}" order by overallScore desc '
         mycursor.execute(statement)
@@ -220,6 +216,15 @@ def updatePlatformDetails():
     while(True):
         updateCodeforcesProblems_Contests()
         time.sleep(7*24*60*60)
+
+@app.route('/logout')
+def logout():
+    if "user" in session:
+        session.pop("user",None)
+    if "faculty" in session:
+        session.pop("faculty",None)
+    return redirect('/')
+
 if __name__ == "__main__":
     leaderBoardUpdationThread = threading.Thread(target=updateLeaderBoard)
     leaderBoardUpdationThread.start()
