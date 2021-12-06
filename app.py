@@ -143,7 +143,7 @@ def adminFiltertable():
             finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
             
             headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
-
+            
 
             mycursor.execute(finalStatement)
             data = mycursor.fetchall()
@@ -220,6 +220,13 @@ def studentRegistration():
             return render_template('stu_login.html')
         return status
 
+@app.route('/logout')
+def logout():
+    if "user" in session:
+        session.pop("user",None)
+    if "faculty" in session:
+        session.pop("faculty",None)
+    return redirect('/')
 
 def updateLeaderBoard():
     while(True):
@@ -231,13 +238,6 @@ def updatePlatformDetails():
         updateCodeforcesProblems_Contests()
         time.sleep(7*24*60*60)
 
-@app.route('/logout')
-def logout():
-    if "user" in session:
-        session.pop("user",None)
-    if "faculty" in session:
-        session.pop("faculty",None)
-    return redirect('/')
 
 if __name__ == "__main__":
     leaderBoardUpdationThread = threading.Thread(target=updateLeaderBoard)

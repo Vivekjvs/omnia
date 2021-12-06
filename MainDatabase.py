@@ -107,7 +107,7 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
 def updateStudentPassword(userid,Password):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'update userdetails set userpassword = "{Password}" from  where userId="{userid}"'
+    selectStatement = f'update userdetails set userpassword = "{Password}" where userId="{userid}"'
   
     #returning none when there is no such user exists
     try:
