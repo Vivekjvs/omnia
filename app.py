@@ -6,6 +6,7 @@ import threading,time
 from scores import updateScore
 from datetime import date, timedelta
 from codeforcesProblems_ContestDetails import updateCodeforcesProblems_Contests
+from ActiveContests import getActiveContests
 
 app = Flask(__name__)
 app.secret_key = "loveYou3000"
@@ -174,9 +175,13 @@ def myPerformance():
         currProblems = mycursor.fetchall()
         problemsSolved.append(currProblems)
         
-
     return render_template("userPerformance.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, problemsSolved=problemsSolved)
 
+@app.route('/ActiveContests', methods =["GET", "POST"])
+def currentActiveContest():
+    ActiveContestsList = getActiveContests()
+    platforms = ["hackerrank.com","codechef.com","codeforces.com","hackerearth.com","leetcode.com","spoj.com"]
+    return render_template("activeContests.html",platforms=platforms,contestList = ActiveContestsList)
 
 @app.route('/stu_register.html', methods =["GET", "POST"])
 def studentSignUp():

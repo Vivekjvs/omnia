@@ -5,9 +5,8 @@
 {% endblock %}
 
  {% block content %}
- 
     {% if filterStatus %}
-    
+    <div onload = "setDate()">
       <form action="/adminLeaderboardFilter" method="POST" >
         <label>StartDate</label>
         <input type = "date" id="startDate" name = "startDate"></t>
@@ -15,7 +14,7 @@
         <input type = "date" id = "endDate" name = "endDate"></t>
         <input type = "submit" value="Apply">
       </form>
-    
+    </div>
     {% endif %}
     
     <table class="table  my-5 border-0">
