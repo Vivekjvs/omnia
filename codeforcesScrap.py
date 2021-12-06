@@ -38,7 +38,7 @@ def updateUserProblemDetails(userid,codeforcesHandle):
         #formatting into json data
         jsonData = json.loads(req.content)["result"]
     except Exception as e:
-        print("Exception Message(updateUserProblemDetails):",e)
+        #print("Exception Message(updateUserProblemDetails):",e)
         return 
     #Main tags we have in programming
     totalTags = ["binarySearch","binaryTree","matrices","arrays","probabilities","implementation","math","backtracking","numberTheory","divideAndConquer","bruteforce","dp","graphs","trees","dfs","bfs","bitManipulation","strings","dataStructures","games","greedy","hashing","sorting","twopointers","Others"]
@@ -112,7 +112,7 @@ def updateUserProblemDetails(userid,codeforcesHandle):
 
         #updating the count of each verdict for piechart
         updateSubmissionCount(problemName,verdict)
-    print("updateUserSubmissionDetails: All the problems are inserted")
+    #print("updateUserSubmissionDetails: All the problems are inserted")
 
 def updateUserContestDetails(userid,codeforcesHandle):
     #By using this API we get all the contest details in which particular user participated
@@ -121,7 +121,7 @@ def updateUserContestDetails(userid,codeforcesHandle):
         codeforcesProfile = f'https://codeforces.com/api/user.rating?handle={codeforcesHandle}'
         req = requests.get(codeforcesProfile)
     except Exception as e:
-        print("Exception Message(updateUserContestDetails):",e)
+        #print("Exception Message(updateUserContestDetails):",e)
         return
     #converting to json format for easy usage
     jsonData = json.loads(req.content)["result"]
@@ -138,7 +138,7 @@ def updateUserContestDetails(userid,codeforcesHandle):
         #Method available in CodeforcesDatabase.py file
         addToUserContestDetails(userid,"codeforces",contestId,contestRank,contestRating,newRating)
 
-    print("userContestDetails: All user contest details of codeforces are updated")
+    #print("userContestDetails: All user contest details of codeforces are updated")
 
 
 def main(userid):
@@ -150,7 +150,7 @@ def main(userid):
         #Retriving 
         codeforcesHandle = getUserHandles(userid)["codeforces"]
     except:
-        print("Enter valid userId")
+        #rint("Enter valid userId")
         exit(0)
 
     codeforcesProfile = f'https://codeforces.com/profile/{codeforcesHandle}'
@@ -162,16 +162,16 @@ def main(userid):
         #scraping the rating of user from webpage
         rating = div_info.ul.li.span.text
     except:
-        print("Please enter a valid codefrces Handle")
+        #print("Please enter a valid codefrces Handle")
         exit(0)
 
 
-    print("Details of",codeforcesHandle,":")
-    print("Current Rating:",rating)
+    # print("Details of",codeforcesHandle,":")
+    # print("Current Rating:",rating)
 
     #total no.of problems solved by the user
     no_of_problems = int(soup.find('div',class_ ='_UserActivityFrame_counterValue').text.split(" ")[0])
-    print("Total no of problems solved till now:",no_of_problems,"\n")
+    #print("Total no of problems solved till now:",no_of_problems,"\n")
 
     #Methods to update particular user details in the database
     updateUserContestDetails(userid,codeforcesHandle)

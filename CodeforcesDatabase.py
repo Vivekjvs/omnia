@@ -43,8 +43,9 @@ def addToUserProblemDetails(valuesList):
   try:
     mycursor.execute(insertStatement)
   except Exception as msg:
-      print("Exception Message(addToUserProblemDetails)",msg)
-  
+      #print("Exception Message(addToUserProblemDetails)",msg)
+      pass
+    
   mydb.commit()
 
 def addToContestDetails(contestid,contestName,contestStartTime):
