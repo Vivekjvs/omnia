@@ -6,6 +6,8 @@ import threading,time
 from scores import updateScore
 from datetime import date
 from codeforcesProblems_ContestDetails import updateCodeforcesProblems_Contests
+from ActiveContests import getActiveContests
+
 app = Flask(__name__)
 currentDate = date.today().strftime("%Y-%m-%d")
 
@@ -84,7 +86,6 @@ def table():
 
     print(data)
     return render_template('leaderboard.html',headings=headings,data=data)
-
 @app.route('/adminLeaderboard', methods =["GET", "POST"])
 def admintable():
     mydb,mycursor = connectdatabase()
@@ -151,62 +152,15 @@ def myPerformance():
         currProblems = mycursor.fetchall()
         problemsSolved.append(currProblems)
 
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.binaryTree=true",[uid])
-    # bt = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.matrices=true",[uid])
-    # mat = mycursor.fetchall();
     
-    
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.arrays=true",[uid])
-    # arr = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.probabilities=true",[uid])
-    # prob = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.implementation=true",[uid])
-    # implementation = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.math=true",[uid])
-    # math = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.backtracking=true",[uid])
-    # backtracking = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.numberTheory=true",[uid])
-    # number = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.divideAndConquer=true",[uid])
-    # dandc = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bruteforce=true",[uid])
-    # brute = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dp=true",[uid])
-    # dp = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.graphs=true",[uid])
-    # graph = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.trees=true",[uid])
-    # trees = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dfs=true",[uid])
-    # dfs = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bfs=true",[uid])
-    # bfs = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bitManipulation=true",[uid])
-    # bit = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.strings=true",[uid])
-    # strings = mycursor.fetchall();
-    
-
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dataStructures=true",[uid])
-    # ds = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.games=true",[uid])
-    # games = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.greedy=true",[uid])
-    # greedy = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.hashing=true",[uid])
-    # hashing = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.sorting=true",[uid])
-    # sorting = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.twopointers=true",[uid])
-    # tp = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.Others=true",[uid])
-    # others = mycursor.fetchall();
-    print(problemsSolved)
 
     return render_template("userPerformance.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, problemsSolved=problemsSolved)
 
+@app.route('/ActiveContests', methods =["GET", "POST"])
+def currentActiveContest():
+    ActiveContestsList = getActiveContests()
+    platforms = ["hackerrank.com","codechef.com","codeforces.com","hackerearth.com","leetcode.com","spoj.com"]
+    return render_template("activeContests.html",platforms=platforms,contestList = ActiveContestsList)
 
 @app.route('/stu_register.html', methods =["GET", "POST"])
 def studentSignUp():

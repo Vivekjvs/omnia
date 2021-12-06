@@ -1,0 +1,32 @@
+{% extends 'basePage.html' %}
+
+{% block title %}
+    Omnia-ActiveContests
+{% endblock %}
+
+{% block content %}
+<table class="table  my-5 border-0">
+    <tr class="table__header">
+        <th clas="table__cell">Platform</th>
+        <th clas="table__cell">Contest</th>
+        <th clas="table__cell">startTime</th>
+        <th clas="table__cell">endTime</th>
+    </tr>
+    {% for platform in platforms %}
+        {% if contestList[platform]|length > 0 %}
+                            
+            {% for contest in contestList[platform] %}
+                <tr class="table__row">
+                    <td clas="table__cell">{{platform}}</td>
+                    <td clas="table__cell">
+                        <h5><a href={{contest["href"]}}>{{contest["event"]}}</a></h5>
+                    </td>
+                    <td clas="table__cell">{{contest["start"]}}</td>
+                    <td clas="table__cell">{{contest["end"]}}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+</table>
+
+{% endblock %}
