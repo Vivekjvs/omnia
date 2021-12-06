@@ -100,11 +100,10 @@ def updateScore():
         overAllRating = getOverAllRating(codeforcesRating,codechefRating,interviewBitRating,spojRating,leetcodeRating)
 
         currentDate = date.today().strftime("%Y-%m-%d")
-        print(currentDate)
+        
         #to update the values in the database table
         updateLeaderBoard(userId,codechefRating,codeforcesRating,interviewBitRating,leetcodeRating,spojRating,overAllRating,currentDate)
-        print(f"userid:{userId}\ncodeforces: {codeforcesRating}\ncodechef:{codechefRating}\ninterview bit:{interviewBitRating}\nspoj:{spojRating}\nleetcode:{leetcodeRating}\noverall:{overAllRating}\n")
-
+        
 if __name__ == "__main__":
     updateScore()
     

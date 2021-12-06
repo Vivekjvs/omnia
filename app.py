@@ -77,6 +77,21 @@ def studentValidate():
         return status
     return None
 
+@app.route('/reset.html', methods =["GET", "POST"])
+def resetPage():
+    if session.get("user") is not None:
+        return render_template('/reset.html')
+    return redirect("/")
+
+@app.route('/reset.html/validate', methods =["GET", "POST"])
+def resetPassword():
+    if request.method == "POST" and session.get("user") is not None:
+        newPassword = request.form.get("password")
+        status = updateStudentPassword(session.get("user"),newPassword)
+        if not status:
+            return status
+    return redirect("/logout")
+
 @app.route('/dashboard', methods =["GET", "POST"])
 def dashboard():
     if session.get("user") is not None:
