@@ -1,16 +1,25 @@
 from os import curdir
-from flask import Flask,request,redirect
+from flask import Flask,request,redirect,session
 from MainDatabase import *
 from flask.templating import render_template
 import threading,time
 from scores import updateScore
-from datetime import date
+from datetime import date, timedelta
 from codeforcesProblems_ContestDetails import updateCodeforcesProblems_Contests
+
 app = Flask(__name__)
+app.secret_key = "loveYou3000"
+app.permanent_session_lifetime = timedelta(days=2)
+
+
 currentDate = date.today().strftime("%Y-%m-%d")
 
 @app.route('/')
 def home():
+    if "user" in session:
+        session.pop("user",None)
+    if "faculty" in session:
+        session.pop("faculty",None)
     return render_template('home.html') 
 
 @app.route('/fac_login.html')
@@ -27,8 +36,9 @@ def facultyValidate():
         password = request.form.get("password")
 
         verdict =  isValidAdmin(adminId,password)
-        print(verdict)
         if(verdict == "successfull"):
+            session["faculty"] = adminId
+            session.permanent = True
             return redirect('/adminLeaderboard')
         return verdict
     return None
@@ -51,6 +61,8 @@ def facultyRegistration():
 
 @app.route('/stu_login.html')
 def studentLogin():
+    if "user" in session:
+        return redirect('/dashboard')
     return render_template('stu_login.html')
 
 @app.route('/stu_login.html/validate', methods =["GET", "POST"])
@@ -60,9 +72,10 @@ def studentValidate():
         adminId = request.form.get("user_name")
         # getting input with name = password in HTML form 
         password = request.form.get("password")
-
         status = isValidStudent(adminId,password)
         if status=="successfull":
+            session["user"] = adminId
+            session.permanent = True
             return redirect("/dashboard")
         # return "successfull"
         return status
@@ -70,62 +83,72 @@ def studentValidate():
 
 @app.route('/dashboard', methods =["GET", "POST"])
 def dashboard():
-    return render_template('dashboard.html')
+    if "user" in session:
+        return render_template('dashboard.html')
+    return redirect('/')
 
 
 @app.route('/leaderboard',methods =["GET", "POST"])
 def table():
-    mydb,mycursor = connectdatabase()
-    statement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{currentDate}" order by overallScore desc '
-    mycursor.execute(statement)
-    data = mycursor.fetchall()
-    data = tuple(data)
-    headings = ("Roll No.","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
-
-    print(data)
-    return render_template('leaderboard.html',headings=headings,data=data)
+    if "user" in session:
+        mydb,mycursor = connectdatabase()
+        statement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{currentDate}" order by overallScore desc '
+        mycursor.execute(statement)
+        data = mycursor.fetchall()
+        data = tuple(data)
+        headings = ("Roll No.","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
+        return render_template('leaderboard.html',headings=headings,data=data)
+    return redirect('/')
 
 @app.route('/adminLeaderboard', methods =["GET", "POST"])
 def admintable():
-    mydb,mycursor = connectdatabase()
-    statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc '
-    mycursor.execute(statement)
-    data = mycursor.fetchall()
-    data = tuple(data)
-    headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
+    if "faculty" in session:
+        mydb,mycursor = connectdatabase()
+        statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc '
+        mycursor.execute(statement)
+        data = mycursor.fetchall()
+        data = tuple(data)
+        headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
 
-    return render_template('admin_leaderboard.html',headings=headings,data=data,filterStatus= True)
+        return render_template('admin_leaderboard.html',headings=headings,data=data,filterStatus= True)
+    return redirect('/')
 
 @app.route('/adminLeaderboardFilter', methods =["GET", "POST"])
 def adminFiltertable():
-    mydb,mycursor = connectdatabase()
-    if request.method == "POST":
-        # getting input with name = user_name in HTML form 
-        startDate = request.form.get("startDate")
-        # getting input with name = password in HTML form 
-        endDate = request.form.get("endDate")
-        
-        startStatement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{startDate}"'
+    if "faculty" in session:
+        mydb,mycursor = connectdatabase()
+        if request.method == "POST":
+            # getting input with name = user_name in HTML form 
+            startDate = request.form.get("startDate")
+            # getting input with name = password in HTML form 
+            endDate = request.form.get("endDate")
+            
+            startStatement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{startDate}"'
 
-        endStatement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{endDate}"'
-        
-        currentStatement = f'select a.userid as userId,b.codechef-a.codechef as codechef,b.codeforces-a.codeforces as codeforces, b.interviewbit-a.interviewbit as interviewbit, b.spoj-a.spoj as spoj, b.leetcode-a.leetcode as leetcode, b.overallScore-a.overallScore as overallScore from ({startStatement}) as a,({endStatement}) as b where a.userId=b.userId'
+            endStatement = f'select userId,codechef,codeforces,interviewbit,spoj,leetcode,overallScore from leaderboardtable where scoredDate="{endDate}"'
+            
+            currentStatement = f'select a.userid as userId,b.codechef-a.codechef as codechef,b.codeforces-a.codeforces as codeforces, b.interviewbit-a.interviewbit as interviewbit, b.spoj-a.spoj as spoj, b.leetcode-a.leetcode as leetcode, b.overallScore-a.overallScore as overallScore from ({startStatement}) as a,({endStatement}) as b where a.userId=b.userId'
 
-        finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
-        
-        headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
+            finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
+            
+            headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
 
 
-        mycursor.execute(finalStatement)
-        data = mycursor.fetchall()
-        data = tuple(data)
+            mycursor.execute(finalStatement)
+            data = mycursor.fetchall()
+            data = tuple(data)
 
-        return render_template('admin_leaderboard.html',headings=headings,data=data,filterStatus=False)
+            return render_template('admin_leaderboard.html',headings=headings,data=data,filterStatus=False)
+    return redirect('/')
 
 @app.route('/MyPerformance',methods =["GET", "POST"])
 def myPerformance():
     
-    uid = "18r21a1290"
+    uid = "18R21A1290"
+    if "user" in session:
+        uid = session["user"]
+    else:
+        return redirect('/')
     mydb,mycursor = connectdatabase()
     mycursor.execute("SELECT `Accepted`,`WrongAnswer`,`TimeLimitExceed`,`CompilationError`,`RunTimeError` FROM usersubmissions WHERE userId LIKE  %s",[uid])
     data = mycursor.fetchall()
@@ -150,60 +173,7 @@ def myPerformance():
         mycursor.execute(selectStatement)
         currProblems = mycursor.fetchall()
         problemsSolved.append(currProblems)
-
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.binaryTree=true",[uid])
-    # bt = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.matrices=true",[uid])
-    # mat = mycursor.fetchall();
-    
-    
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.arrays=true",[uid])
-    # arr = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.probabilities=true",[uid])
-    # prob = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.implementation=true",[uid])
-    # implementation = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.math=true",[uid])
-    # math = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.backtracking=true",[uid])
-    # backtracking = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.numberTheory=true",[uid])
-    # number = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.divideAndConquer=true",[uid])
-    # dandc = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bruteforce=true",[uid])
-    # brute = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dp=true",[uid])
-    # dp = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.graphs=true",[uid])
-    # graph = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.trees=true",[uid])
-    # trees = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dfs=true",[uid])
-    # dfs = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bfs=true",[uid])
-    # bfs = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bitManipulation=true",[uid])
-    # bit = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.strings=true",[uid])
-    # strings = mycursor.fetchall();
-    
-
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dataStructures=true",[uid])
-    # ds = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.games=true",[uid])
-    # games = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.greedy=true",[uid])
-    # greedy = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.hashing=true",[uid])
-    # hashing = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.sorting=true",[uid])
-    # sorting = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.twopointers=true",[uid])
-    # tp = mycursor.fetchall();
-    # mycursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.Others=true",[uid])
-    # others = mycursor.fetchall();
-    print(problemsSolved)
+        
 
     return render_template("userPerformance.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, problemsSolved=problemsSolved)
 
