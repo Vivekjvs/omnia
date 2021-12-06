@@ -133,7 +133,7 @@ def adminFiltertable():
             finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
             
             headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
-
+            
 
             mycursor.execute(finalStatement)
             data = mycursor.fetchall()
