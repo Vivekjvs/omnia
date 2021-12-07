@@ -1,4 +1,6 @@
 from datetime import date
+
+from itsdangerous import exc
 from AdminDatabase import *
 import requests
 import json
@@ -17,20 +19,23 @@ def getCodeforcesRating(codeforcesHandle):
         return 0
 
 def getCodechefRating(codechefHandle):
+    try:
+        profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefHandle}"
+        req = requests.get(profileUrl)
+        jsonData = json.loads(req.content)
+        #print(jsonData)
 
-    profileUrl = f"https://competitive-coding-api.herokuapp.com/api/codechef/{codechefHandle}"
-    req = requests.get(profileUrl)
-    jsonData = json.loads(req.content)
-    #print(jsonData)
+        rating = int(jsonData['rating'])
+        rating = (((rating-1300)**2)//30)
 
-    rating = int(jsonData['rating'])
-    rating = (((rating-1300)**2)//30)
+        totalsolved = int(jsonData["fully_solved"]["count"])
+        rating = rating + totalsolved*20
 
-    totalsolved = int(jsonData["fully_solved"]["count"])
-    rating = rating + totalsolved*20
-
-    req.close()
-    return rating
+        req.close()
+        return rating
+    except:
+        return 0
+    
 
 def getInterviewBitRating(inerviewbitHandle):
     try:

@@ -1,5 +1,7 @@
+import os
 from os import curdir
 from flask import Flask,request,redirect,session
+from flask.helpers import url_for
 from MainDatabase import *
 from flask.templating import render_template
 import threading,time
@@ -7,10 +9,19 @@ from scores import updateScore
 from datetime import date, timedelta
 from codeforcesProblems_ContestDetails import updateCodeforcesProblems_Contests
 from ActiveContests import getActiveContests
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_mail import Mail,Message
 
 app = Flask(__name__)
 app.secret_key = "loveYou3000"
 app.permanent_session_lifetime = timedelta(days=2)
+app.config['hello'] = "hello"
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('email_id')
+app.config['MAIL_PASSWORD'] = os.environ.get('email_password')
+mail = Mail(app)
 
 
 currentDate = date.today().strftime("%Y-%m-%d")
@@ -207,6 +218,52 @@ def studentRegistration():
         return status
 
 
+@app.route('/logout')
+def logout():
+    if "user" in session:
+        session.pop("user",None)
+    if "faculty" in session:
+        session.pop("faculty",None)
+    return redirect('/')
+
+@app.route('/reset_password',methods=['GET','POST'])
+def reset_request():
+    if request.method == "POST":
+        email = request.form.get("email")
+        if isValidStudentEmail(email):
+            statement = f'select userId from userdetails where email="{email}"'
+            mydb,mycursor = connectdatabase()
+            mycursor.execute(statement)
+            myresult = mycursor.fetchall()
+            s = Serializer(app.config['hello'],1800)
+            token = s.dumps({'user_id':myresult[0][0]}).decode('utf-8')
+            msg = Message('Password Reset Request',sender='noreply@demo.com',recipients=[email])
+            msg.body = f'''To reset your password, visit the link:
+            {url_for('reset_password',token=token,_external=True)}
+
+                 If you did not make this request, plz ignore
+
+            '''
+            mail.send(msg)
+        else:
+            return "email Not Valid"
+    return redirect('/')
+
+
+@app.route('/reset_password/<token>',methods=['GET','POST'])
+def reset_password(token):
+    s = Serializer(app.config['hello'])
+    try:
+        user_id = s.loads(token)['user_id']
+        return render_template('reset.html')
+    except:
+        return None
+
+@app.route('/forgot.html')
+def forgot_page():
+    return render_template('forgot.html')
+
+
 def updateLeaderBoard():
     while(True):
         updateScore()
@@ -217,13 +274,6 @@ def updatePlatformDetails():
         updateCodeforcesProblems_Contests()
         time.sleep(7*24*60*60)
 
-@app.route('/logout')
-def logout():
-    if "user" in session:
-        session.pop("user",None)
-    if "faculty" in session:
-        session.pop("faculty",None)
-    return redirect('/')
 
 if __name__ == "__main__":
     leaderBoardUpdationThread = threading.Thread(target=updateLeaderBoard)

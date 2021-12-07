@@ -104,3 +104,21 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
     else:
         return "User Aleady Exists"
 
+def isValidStudentEmail(email):
+    mydb,mycursor = connectdatabase()
+
+    selectStatement = f'select userid from userDetails where email="{email}"'
+  
+    #returning none when there is no such user exists
+    try:
+        mycursor.execute(selectStatement)
+    except Exception as msg:
+        #print(msg)
+        return False
+
+    
+    myresult = mycursor.fetchall()
+    if(len(myresult) == 0):
+        return "user doesn't exists"
+    
+    return True
