@@ -104,11 +104,24 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
     else:
         return "User Aleady Exists"
 
+def updateStudentPassword(userid,Password):
+    mydb,mycursor = connectdatabase()
+
+    selectStatement = f'update userdetails set userpassword = "{Password}" where userId="{userid}"'
+  
+    #returning none when there is no such user exists
+    try:
+        mycursor.execute(selectStatement)
+        mydb.commit()
+    except Exception as msg:
+        #print(msg)
+        return "couldn't update user password Please try again!!!"
+    return True
+
 def isValidStudentEmail(email):
     mydb,mycursor = connectdatabase()
 
     selectStatement = f'select userid from userDetails where email="{email}"'
-  
     #returning none when there is no such user exists
     try:
         mycursor.execute(selectStatement)
@@ -120,5 +133,4 @@ def isValidStudentEmail(email):
     myresult = mycursor.fetchall()
     if(len(myresult) == 0):
         return "user doesn't exists"
-    
     return True

@@ -3,32 +3,35 @@
 {% block title %}
   Omnia-Leaderboard
 {% endblock %}
-
+<link rel="stylesheet" href="../static/css/leaderboard.css">
  {% block content %}
     {% if filterStatus %}
-    <div onload = "setDate()">
-      <form action="/adminLeaderboardFilter" method="POST" >
+    <div class="d-flex justify-content-center  border-danger p-3 m-3" onload = "setDate()">
+      <form class="form-inline" action="/adminLeaderboardFilter" method="POST" >
         <label>StartDate</label>
-        <input type = "date" id="startDate" name = "startDate"></t>
+        <input class="rounded border m-2" style="height: 3rem;font-size: 1rem;" type = "date" id="startDate" name = "startDate"></input>
         <label>EndDate</label>
-        <input type = "date" id = "endDate" name = "endDate"></t>
-        <input type = "submit" value="Apply">
+        <input class="rounded border" style="height: 3rem;font-size: 1rem;" type = "date" id = "endDate" name = "endDate"></input>
+        <input class="btn btn-primary" style="font-size: 1rem;width: 6rem;" type = "submit" value="Apply"><br>
+        
       </form>
     </div>
     {% endif %}
-    
-    <table class="table  my-5 border-0">
-        <tr class="table__header">
-            {% for header in headings %}
-            <th class="table__cell">{{ header }}</th>
-            {% endfor %}
-        </tr>
-        {% for row in data %}
-        <tr class="table__row">
-            {% for cell in row %}
-                <td clas="table__cell">{{ cell }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+    <div id="leader-table" class="rounded container">
+
+      <table class="rounded table table-success table-striped border-sm p-3 bg-body ">
+          <tr class="table__header">
+              {% for header in headings %}
+              <th class="table__cell">{{ header }}</th>
+              {% endfor %}
+          </tr>
+          {% for row in data %}
+          <tr class="table__row">
+              {% for cell in row %}
+                  <td clas="table__cell">{{ cell }}</td>
+              {% endfor %}
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
   {% endblock %}

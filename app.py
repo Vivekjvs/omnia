@@ -34,7 +34,6 @@ def home():
 def facultyLogin():
     return render_template('fac_login.html')
 
-
 @app.route('/fac_login.html/validate', methods =["GET", "POST"])
 def facultyValidate():
     if request.method == "POST":
@@ -69,7 +68,7 @@ def facultyRegistration():
 
 @app.route('/stu_login.html')
 def studentLogin():
-    if "user" in session:
+    if session.get("user") is not None:
         return redirect('/dashboard')
     return render_template('stu_login.html')
 
@@ -91,7 +90,7 @@ def studentValidate():
 
 @app.route('/dashboard', methods =["GET", "POST"])
 def dashboard():
-    if "user" in session:
+    if session.get("user") is not None:
         return render_template('dashboard.html')
     return redirect('/')
 
@@ -110,7 +109,7 @@ def table():
 
 @app.route('/adminLeaderboard', methods =["GET", "POST"])
 def admintable():
-    if "faculty" in session:
+    if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
         statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc '
         mycursor.execute(statement)
@@ -123,7 +122,7 @@ def admintable():
 
 @app.route('/adminLeaderboardFilter', methods =["GET", "POST"])
 def adminFiltertable():
-    if "faculty" in session:
+    if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
         if request.method == "POST":
             # getting input with name = user_name in HTML form 
@@ -140,7 +139,7 @@ def adminFiltertable():
             finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
             
             headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
-
+            
 
             mycursor.execute(finalStatement)
             data = mycursor.fetchall()
@@ -217,7 +216,6 @@ def studentRegistration():
             return render_template('stu_login.html')
         return status
 
-
 @app.route('/logout')
 def logout():
     if "user" in session:
@@ -225,6 +223,7 @@ def logout():
     if "faculty" in session:
         session.pop("faculty",None)
     return redirect('/')
+
 
 @app.route('/reset_password',methods=['GET','POST'])
 def reset_request():
