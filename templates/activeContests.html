@@ -21,8 +21,8 @@
                     <td clas="table__cell">
                         <h5><a href={{contest["href"]}}>{{contest["event"]}}</a></h5>
                     </td>
-                    <td clas="table__cell">{{contest["start"]}}</td>
-                    <td clas="table__cell">{{contest["end"]}}</td>
+                    <td clas="table__cell">{{contest["start"][:10]}} [{{contest["start"][11:]}}]</td>
+                    <td clas="table__cell">{{contest["end"][:10]}} [{{contest["end"][11:]}}]</td>
                 </tr>
             {% endfor %}
         {% endif %}

@@ -1,8 +1,9 @@
-import json
-import requests
+import requests,datetime
 
 def getActiveContests():
-    ClistURL = "https://clist.by/api/v2/contest/?username=srikar23&api_key=26da379142f75b94ef2ba1a6bd5de9379f69f47c&format=json"
+    today = datetime.date.today().strftime("%Y-%m-%dT%H:%M:%S")
+    ClistURL = f'https://clist.by/api/v2/contest/?username=srikar23&api_key=26da379142f75b94ef2ba1a6bd5de9379f69f47c&format=json&end__gt={today}'
+    
     req = requests.get(ClistURL)
     req.raise_for_status()  # raises exception when not a 2xx response
     jsonData =[]

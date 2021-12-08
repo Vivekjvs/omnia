@@ -1,0 +1,29 @@
+{% extends 'basePage.html' %}
+
+{% block title %}
+  Omnia-DSATracker
+{% endblock %}
+
+{% block content %}
+ <link rel="stylesheet" href="../static/css/dsaTracker.css">
+    <h1 class="display display-1 text-center" style="font-family: 'Lora', serif;color: #19395a;">DSA Tracker</h1>
+    <h4 class="display text-center" style="font-family: 'Lora', serif;color: #233b53;" >BRUSH UP YOUR DATASTRUCTURES AND ALGORITHM AND GET INTO "FAANG"</h4>
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+      {% for tag in tagline %}
+        
+      <a style="text-decoration: none; color: black;" target="_blank" href="http://127.0.0.1:5000/challenges/{{tag[0]}}">
+        
+        <div class="col">
+          <div class="card card-primary " style="background: rgba(255, 255, 255, 0.1);">
+            <img src="{{tag[2]}}" style="height: 15rem" class="card-img-top" alt="{{tag[0]}}">
+            <div class="card-body" style="background: rgba(255, 255, 255, 0.1);">
+              <h5 class="card-title" style="font-family: 'Lora', serif;">{{tag[0]}}</h5>
+              <p class="card-text" style="font-family: 'Lora', serif;">{{tag[1]}}</p>
+              
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      </div>
+{% endblock %}

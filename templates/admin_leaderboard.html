@@ -3,8 +3,9 @@
 {% block title %}
   Omnia-Leaderboard
 {% endblock %}
-<link rel="stylesheet" href="../static/css/leaderboard.css">
  {% block content %}
+    <link rel="stylesheet" href="../static/css/leaderboard.css">
+    <script src="../static/js/leaderBoard.js"></script>
     {% if filterStatus %}
     <div class="d-flex justify-content-center  border-danger p-3 m-3" onload = "setDate()">
       <form class="form-inline" action="/adminLeaderboardFilter" method="POST" >

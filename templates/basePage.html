@@ -43,26 +43,43 @@
               <!-- <li class="nav-item">
                 <a class="nav-link disabled">Disabled</a>
               </li> -->
-
+            
+            </ul>
               {% if session.get("user") %}
               
-              <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul class="navbar-nav ms-auto">
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{session["user"]}}<img src="../static/profilePic.png" width="40px" height="40px" border-radius="50%"></a>
-                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li class="nav-item"><a class="dropdown-item" href="reset.html">Change Password</a></li>
-                        <li class="nav-item">
-                          <a class="dropdown-item" href="http://127.0.0.1:5000/logout">Log out</a>
-                        </li>
-                          
-                      </ul>
-                  </li>
-                </ul>
-              </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                  <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span style= "font-size:1.5rem">{{session["user"]}}</span> <img src="https://robohash.org/{{session["user"]}}" style="width:35px; height:35px; border-radius:50%"></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                          <li class="nav-item"><a class="dropdown-item" href="changePassword.html">Change Password</a></li>
+                          <li class="nav-item">
+                            <a class="dropdown-item" href="http://127.0.0.1:5000/logout">Log out</a>
+                          </li>
+                            
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
+              {% endif %}
+              {% if session.get("faculty") %}
+              
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                  <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span style= "font-size:1.5rem">{{session["faculty"]}}</span> <img src="https://robohash.org/{{session["faculty"]}}" style="width:35px; height:35px; border-radius:50%"></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                          <li class="nav-item"><a class="dropdown-item" href="http://127.0.0.1:5000/ChangeUserPassword">Reset User Password</a></li>
+                          <li class="nav-item">
+                            <a class="dropdown-item" href="http://127.0.0.1:5000/logout">Log out</a>
+                          </li>
+                            
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
               {% endif %}
               
-            </ul>
           </div>
         </div>
       </nav>

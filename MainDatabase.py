@@ -1,5 +1,6 @@
 from database import connectdatabase
 import scores,codeforcesScrap
+from encryption import *
 
 def isValidAdmin(adminId,Password):
     mydb,mycursor = connectdatabase()
@@ -18,7 +19,7 @@ def isValidAdmin(adminId,Password):
     if(len(myresult) == 0):
         return "user doesn't exists"
     
-    if(myresult[0][1] != Password):
+    if(not check_password(Password,myresult[0][1])):
         return "wrong Password"
     else:
         return "successfull"
@@ -26,18 +27,19 @@ def isValidAdmin(adminId,Password):
 def addAdmin(adminId,password,email):
     mydb,mycursor = connectdatabase()
 
-    selectStatement = f'select userid,password from admindetails where userId="{adminId}"'
+    selectStatement = f'select adminId,password from admindetails where adminId="{adminId}"'
   
     #returning none when there is no such user exists
     try:
         mycursor.execute(selectStatement)
     except Exception as msg:
-        #print(msg)
-        return None
+        print(msg)
+        return "Error"
 
     
     myresult = mycursor.fetchall()
     if(len(myresult) == 0):
+        password = get_hashed_password(password)
         insertStatement = f'insert Ignore into adminDetails values("{adminId}","{password}","{email}")'
   
         #returning none when there is no such user exists
@@ -69,13 +71,14 @@ def isValidStudent(userId,password):
     if(len(myresult) == 0):
         return "user doesn't exists"
     
-    if(myresult[0][1] != password):
+    if(not check_password(password,myresult[0][1])):
         return "wrong Password"
     else:
         return "successfull"
     
 def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone):
     mydb,mycursor = connectdatabase()
+    password = get_hashed_password(password)
 
     selectStatement = f'select userId,userpassword from userdetails where userId="{adminId}"'
   
@@ -107,6 +110,7 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
 def updateStudentPassword(userid,Password):
     mydb,mycursor = connectdatabase()
 
+    Password = get_hashed_password(Password)
     selectStatement = f'update userdetails set userpassword = "{Password}" where userId="{userid}"'
   
     #returning none when there is no such user exists
@@ -116,7 +120,7 @@ def updateStudentPassword(userid,Password):
     except Exception as msg:
         #print(msg)
         return "couldn't update user password Please try again!!!"
-    return True
+    return "True"
 
 def isValidStudentEmail(email):
     mydb,mycursor = connectdatabase()

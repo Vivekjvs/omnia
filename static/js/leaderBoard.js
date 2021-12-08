@@ -1,4 +1,4 @@
-function setDate(){
+window.onload = function(){
     var todaydate = new Date();
     var dd = todaydate.getDate();
     var mm = todaydate.getMonth() + 1; //January is 0!
