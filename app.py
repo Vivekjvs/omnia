@@ -32,6 +32,10 @@ def home():
 
 @app.route('/fac_login.html')
 def facultyLogin():
+    if session.get("faculty") is not None:
+        return redirect('/adminLeaderboard')
+    if session.get("user") is not None:
+        return redirect("/")
     return render_template('fac_login.html')
 
 @app.route('/fac_login.html/validate', methods =["GET", "POST"])
@@ -74,6 +78,8 @@ def facultyRegistration():
 def studentLogin():
     if session.get("user") is not None:
         return redirect('/dashboard')
+    if session.get("faculty") is not None:
+        return redirect("/")
     return render_template('stu_login.html')
 
 @app.route('/stu_login.html/validate', methods =["GET", "POST"])
@@ -318,9 +324,24 @@ def reset_password(token):
     s = Serializer(app.config['hello'])
     try:
         user_id = s.loads(token)['user_id']
-        return render_template('reset.html')
+        return render_template('reset.html',token=token)
     except:
         return None
+
+@app.route('/restPasswordUpdate/<token>',methods=['GET','POST'])
+def resetPassword(token):
+    if request.method == "POST":
+        try:
+            s = Serializer(app.config['hello'])
+            user_id = s.loads(token)['user_id']
+            newPassword = request.form.get("password")
+            status = updateStudentPassword(user_id,newPassword)
+            if not status:
+                return status
+            return redirect('/')
+        except:
+            return "Error"
+    return "error"
 
 @app.route('/forgot.html')
 def forgot_page():
@@ -343,4 +364,4 @@ if __name__ == "__main__":
     leaderBoardUpdationThread.start()
     platformDetailsUpdationThread = threading.Thread(target=updatePlatformDetails)
     platformDetailsUpdationThread.start()
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0")
