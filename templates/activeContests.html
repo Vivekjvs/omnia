@@ -11,6 +11,7 @@
         <th clas="table__cell">Contest</th>
         <th clas="table__cell">startTime</th>
         <th clas="table__cell">endTime</th>
+        <th clas="table__cell">Duration</th>
     </tr>
     {% for platform in platforms %}
         {% if contestList[platform]|length > 0 %}
@@ -23,6 +24,7 @@
                     </td>
                     <td clas="table__cell">{{contest["start"][:10]}} [{{contest["start"][11:]}}]</td>
                     <td clas="table__cell">{{contest["end"][:10]}} [{{contest["end"][11:]}}]</td>
+                    <td clas="table__cell">{{contest["duration"]//(60*60)}}H {{contest["duration"]%(60*60)}}min </td>
                 </tr>
             {% endfor %}
         {% endif %}
