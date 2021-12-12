@@ -106,3 +106,9 @@ create table admindetails(
 	password varchar(15),
 	email varchar(30)
 );
+
+create table dsa(
+	topic varchar(20),
+	name varchar(150) primary key,
+	url varchar(500)
+);
