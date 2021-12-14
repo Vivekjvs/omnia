@@ -6,6 +6,22 @@
  {% block content %}
     <link rel="stylesheet" href="../static/css/leaderboard.css">
     <script src="../static/js/leaderBoard.js"></script>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}  
+      {% if messages %}  
+        {% for category,message in messages %}  
+        <div class="col-sm-12">
+          <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+            <button type="button" class="close font__size-18" data-dismiss="alert">
+                    X
+            </button>
+            <i class="start-icon far fa-check-circle faa-tada animated"></i>{{ message|capitalize }}
+          </div>
+        </div>
+  
+        {% endfor %}  
+      {% endif %}  
+    {% endwith %}  
     {% if filterStatus %}
     <div class="d-flex justify-content-center  border-danger p-3 m-3" onload = "setDate()">
       <form class="form-inline" action="/adminLeaderboardFilter" method="POST" >
@@ -28,8 +44,9 @@
           </tr>
           {% for row in data %}
           <tr class="table__row">
-              {% for cell in row %}
-                  <td clas="table__cell">{{ cell }}</td>
+              <td class ="table__cell"><a href="/MyPerformance/{{row[0]}}" style="text-decoration-color: none; color: inherit;">{{ row[0] }}</a></td>
+              {% for cell in row[1:] %}
+                  <td class ="table__cell">{{ cell }}</td>
               {% endfor %}
           </tr>
           {% endfor %}

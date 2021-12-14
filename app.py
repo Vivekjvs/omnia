@@ -1,6 +1,6 @@
 import os
 from os import curdir
-from flask import Flask,request,redirect,session
+from flask import Flask,request,redirect,session,flash
 from flask.helpers import url_for
 from MainDatabase import *
 from flask.templating import render_template
@@ -131,12 +131,12 @@ def ChangeUserPassByAdminvalidate():
         userId = request.form.get("user")
         # getting input with name = password in HTML form
         status = isValidStudent(userId,"")
-        print(status)
         if status != "user doesn't exists":
             updateStatus = updateStudentPassword(userId,"12345")
             if updateStatus != "True":
                 return updateStatus
             else:
+                flash('User Password changed Successfully!!!','success')
                 return redirect('/adminLeaderboard')
         else:
             return status
@@ -218,12 +218,14 @@ def adminFiltertable():
             return render_template('admin_leaderboard.html',headings=headings,data=data,filterStatus=True)
     return redirect('/')
 
-@app.route('/MyPerformance',methods =["GET", "POST"])
-def myPerformance():
+@app.route('/MyPerformance/<userId>',methods =["GET", "POST"])
+def myPerformance(userId):
     
     uid = "18R21A1290"
-    if "user" in session:
+    if session.get("user") is not None:
         uid = session["user"]
+    elif session.get("faculty") is not None:
+        uid = userId
     else:
         return redirect('/')
     mydb,mycursor = connectdatabase()
@@ -236,6 +238,9 @@ def myPerformance():
 
     mycursor.execute('SELECT a.newRating FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid])
     val = mycursor.fetchall()
+
+    mycursor.execute('SELECT * FROM userdetails where userid LIKE %s',[uid])
+    handles = mycursor.fetchall()[0]
     #-------------
     labels = ["Accepted","WrongAnswer","TimeLimitExceed","CompilationError","RunTimeError"]
 
@@ -251,7 +256,7 @@ def myPerformance():
         currProblems = mycursor.fetchall()
         problemsSolved.append(currProblems)
         
-    return render_template("userPerformance.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, problemsSolved=problemsSolved)
+    return render_template("userPerformance.html", handles = handles[2:],labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, problemsSolved=problemsSolved)
 
 @app.route('/ActiveContests', methods =["GET", "POST"])
 def currentActiveContest():
