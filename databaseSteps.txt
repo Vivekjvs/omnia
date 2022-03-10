@@ -14,6 +14,30 @@ spojHandle varchar(30) DEFAULT "",
 email varchar(30),
 phone varchar(10)
 );
+//altering userdetails
+ALTER TABLE `codingprofilesfeedback`.`userdetails` 
+ADD COLUMN `name` VARCHAR(30) NULL AFTER `userId`,
+ADD COLUMN `gpa` FLOAT NULL AFTER `name`,
+ADD COLUMN `backlogs` INT NULL AFTER `gpa`,
+ADD COLUMN `branch` VARCHAR(4) NULL AFTER `backlogs`;
+
+//creating a new userdetails table:
+CREATE TABLE `userdetails` (
+  `userId` varchar(20) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `gpa` float DEFAULT NULL,
+  `backlogs` int DEFAULT '0',
+  `branch` varchar(4) DEFAULT NULL,
+  `userPassword` varchar(65) DEFAULT NULL,
+  `codechefHandle` varchar(30) DEFAULT '',
+  `codeforcesHandle` varchar(30) DEFAULT '',
+  `interviewbitHandle` varchar(30) DEFAULT '',
+  `leetCodeHandle` varchar(30) DEFAULT '',
+  `spojHandle` varchar(30) DEFAULT '',
+  `email` varchar(30) DEFAULT NULL,
+  `phone` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+);
 
 
 create table userSubmissions
@@ -111,4 +135,25 @@ create table dsa(
 	topic varchar(20),
 	name varchar(150) primary key,
 	url varchar(500)
+);
+
+create table placements(
+	user_id varchar(10),
+    company_name varchar(20),
+    level_of_clearence varchar(3),
+    package float,
+    exp text,
+    primary key(user_id,company_name,level_of_clearence,package)
+);
+
+create table company(
+    company_id int auto_increment primary key,
+    name varchar(20),
+    package float,
+    role varchar(30),
+    gpa float,
+    backlogs int,
+    branch varchar(20),
+    url text,
+    campus_hiring boolean
 );
