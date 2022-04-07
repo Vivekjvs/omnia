@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>All companies</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/admin.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="admin_main.html">Omnia</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="admin_main.html">Home</a></li>
+        <li><a href="admin_leaderboard.html">Leaderboard</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">CRT <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Create Placement Announcement</a></li>
+            <li><a href="admin companies.html">All companies</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">My Profile</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Notifications</a></li>
+            <div class="dropdown-divider"></div>
+            <li><a href="#">Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="container">
+  <h2>All Companies</h2>
+  <p>Stats from all companies in the current acedemic year</p>       
+  <button type="button" class="btn btn-primary">Add company</button>
+  <br><br>     
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Company Name</th>
+        <th>Number of students applied</th>
+        <th>Number of interview candidates</th>
+        <th>Successful candidates</th>
+        <th>Type of company</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+        <td>john@example.com</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td>mary@example.com</td>
+        <td>john@example.com</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td>july@example.com</td>
+        <td>john@example.com</td>
+        <td>john@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container">
+  <ul class="pagination">
+    <li class="active"><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+  </ul>
+</div>
+
+
+</body>
+</html>

@@ -1,72 +1,23 @@
-@media (min-width: 768px) {
-    .animate {
-      animation-duration: 0.3s;
-      -webkit-animation-duration: 0.3s;
-      animation-fill-mode: both;
-      -webkit-animation-fill-mode: both;
-    }
-  }
-  
-  @keyframes slideIn {
-    0% {
-      transform: translateY(1rem);
-      opacity: 0;
-    }
-  
-    100% {
-      transform: translateY(0rem);
-      opacity: 1;
-    }
-  
-    0% {
-      transform: translateY(1rem);
-      opacity: 0;
-    }
-  }
-  
-  @-webkit-keyframes slideIn {
-    0% {
-      -webkit-transform: transform;
-      -webkit-opacity: 0;
-    }
-  
-    100% {
-      -webkit-transform: translateY(0);
-      -webkit-opacity: 1;
-    }
-  
-    0% {
-      -webkit-transform: translateY(1rem);
-      -webkit-opacity: 0;
-    }
-  }
-  
-  .slideIn {
-    -webkit-animation-name: slideIn;
-    animation-name: slideIn;
-  }
-  
-  /* Other styles for the page not related to the animated dropdown */
-  
-  nav {
-    background: linear-gradient(to right, #0062E6, #33AEFF);
-    color: white;
-    
-  }
-  .nav-link{
-    color: white;
+  body{
+    background-color: #FCFCFC;
   }
   .navbar-brand{
     font-family: 'Pacifico', cursive;
     color: white;
     font-size: x-large;
   }
-  li{
-      margin-left: 2%;
-      margin-right: 2%;
-  }
   .row{
-      margin-top: 3%;
-      margin-left: 1%;
-      margin-right: 1%;
+    margin: 1%;
   }
+ .row .container-fluid ul,p,a{
+   padding-top: 1.5%;
+ }
+ .col-sm-4,.col-sm-3{
+   background-color: white;
+   padding-bottom: 1%;
+   margin: 0.5%;
+   
+ }
+ .col-sm-3{
+   padding-bottom: 2.5%;
+ }
