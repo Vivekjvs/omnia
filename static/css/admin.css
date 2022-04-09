@@ -1,0 +1,23 @@
+body{
+    background-color: #FCFCFC;
+  }
+  .navbar-brand{
+    font-family: 'Pacifico', cursive;
+    color: white;
+    font-size: x-large;
+  }
+  .row{
+    margin: 1%;
+  }
+ .row .container-fluid ul,p,a{
+   padding-top: 1.5%;
+ }
+ .col-sm-4,.col-sm-3{
+   background-color: white;
+   padding-bottom: 1%;
+   margin: 0.5%;
+   
+ }
+ .col-sm-3{
+   padding-bottom: 2.5%;
+ }

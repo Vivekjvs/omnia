@@ -1,0 +1,59 @@
+{% extends 'FacultyBasePage.html' %}
+
+{% block title %}
+    Omnia Dashboard
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="../static/css/admin.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>All Companies</h2>
+    <p>Stats from all companies in the current acedemic year</p>       
+    <button type="button" class="btn btn-primary">Add company</button>
+    <br><br>     
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Company Name</th>
+          <th>Number of students applied</th>
+          <th>Number of interview candidates</th>
+          <th>Successful candidates</th>
+          <th>Type of company</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>john@example.com</td>
+          <td>john@example.com</td>
+          <td>john@example.com</td>
+        </tr>
+        <tr>
+          <td>Mary</td>
+          <td>Moe</td>
+          <td>mary@example.com</td>
+          <td>john@example.com</td>
+          <td>john@example.com</td>
+        </tr>
+        <tr>
+          <td>July</td>
+          <td>Dooley</td>
+          <td>july@example.com</td>
+          <td>john@example.com</td>
+          <td>john@example.com</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <ul class="pagination">
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+    </ul>
+  </div>
+
+  {% endblock %}

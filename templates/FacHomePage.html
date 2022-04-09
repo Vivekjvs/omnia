@@ -1,0 +1,54 @@
+{% extends 'FacultyBasePage.html' %}
+
+{% block title %}
+    Omnia Dashboard
+{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="../static/css/admin.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+       <div class="container-fluid">
+            <h3>Student Leaderboard</h3>
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#">1st year</a></li>
+              <li><a href="#">2nd Year</a></li>
+              <li><a href="#">3rd year</a></li>
+              <li><a href="#">4th Year</a></li>
+            </ul>
+            <p> 1. Srikar     1234</p>
+            <p> 1. Srikar     1234</p>
+            <p> 1. Srikar     1234</p>
+            <a href="/adminLeaderboard">See all</a>
+        </div>
+        
+      </div>
+      
+    <div class="col-sm-4">
+      <div class="container-fluid">
+        <h3>Student Leaderboard</h3>
+        <ul class="nav nav-pills">
+          <li class="active"><a href="#">1st year</a></li>
+          <li><a href="#">2nd Year</a></li>
+          <li><a href="#">3rd year</a></li>
+          <li><a href="#">4th Year</a></li>
+        </ul>
+        <p> 1. Srikar     1234</p>
+        <p> 1. Srikar     1234</p>
+        <p> 1. Srikar     1234</p>
+        <a>See all</a>
+      </div>
+      
+    </div>
+    <div class="col-sm-3">
+      <div class="container-fluid">
+        <h3>CRT Stastics</h3>
+        <p>View all student performance</p>
+        <a href="#" class="btn btn-primary">View Stastics</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
