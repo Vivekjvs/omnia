@@ -1,0 +1,29 @@
+{% extends 'FacultyBasePage.html' %}
+
+{% block title %}
+    Omnia-Add Company
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="/Faculty/AddCompany">
+        <label for="name">Company Name</label><input type="text" name="company" required><br>
+        <label for="package">Package</label><input type="text" name = "package" required><br>
+        <label for="role">Role</label><input type="text" name="role" required><br>
+        <label for="gpa">GPA</label><input type="text" name="gpa"required ><br>
+        <label for="backlog">Max Backlogs</label><input type="number" name = "backlog" required><br>
+        <label for="branch"> Branch</label><select name = "branch" multiple=true required>
+            <option value="EEE">EEE</option>
+            <option value="IT">IT</option>
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="MECH">MECH</option>
+        </select> <br>
+        <label for="url">URL</label><input type="text" name="url"><br>
+        <label for="campus_hiring">campus_hiring</label>
+        <select name="campus_hiring" required>
+            <option value="OnCampus">On Campus</option>
+            <option value="OffCampus">Off Campus</option>
+        </select><br>
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}

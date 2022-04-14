@@ -41,12 +41,14 @@ def updateAllProblemDetails():
     #print("updateAllProblemDetails: All the problem details of codeforces are updated")
 
 def updateCodeforcesProblems_Contests():
+    try:
+        #To update details of all problems available in codeforces into the database
+        updateAllProblemDetails()
 
-    #To update details of all problems available in codeforces into the database
-    updateAllProblemDetails()
-
-    #To update details of all contests available in codeforces into the database
-    updateAllContestDetails()
+        #To update details of all contests available in codeforces into the database
+        updateAllContestDetails()
+    except:
+        print("Error in codeforces problems_ContestDetails File")
 
 if __name__ == "__main__":
     updateCodeforcesProblems_Contests()

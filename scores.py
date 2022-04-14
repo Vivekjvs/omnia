@@ -75,7 +75,6 @@ def getLeetcodeRating(leetcodeHandle):
 
         rating = contributionPoints + totalProblemsSolved*10
         req.close()
-        print(leetcodeHandle,contributionPoints,totalProblemsSolved)
         return int(rating)
     except:
         return 0

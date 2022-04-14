@@ -1,53 +1,46 @@
 {% extends 'FacultyBasePage.html' %}
 
 {% block title %}
-    Omnia Dashboard
+    Omnia CompanyDetails
 {% endblock %}
 
-{% block styles %}
-<link rel="stylesheet" href="../static/css/admin.css">
-{% endblock %}
 
 {% block content %}
 <div class="container">
     <h2>All Companies</h2>
-    <p>Stats from all companies in the current acedemic year</p>       
-    <button type="button" class="btn btn-primary">Add company</button>
+    <p>Stats from all companies in the current acedemic year</p> 
+    <form method="POST" action="/Faculty/AddCompanyPage">
+        <input type="submit" class="btn btn-primary" value="Add company">
+    </form>      
     <br><br>     
+
     <table class="table table-hover">
       <thead>
         <tr>
           <th>Company Name</th>
-          <th>Number of students applied</th>
+          <th>Package</th>
           <th>Number of interview candidates</th>
           <th>Successful candidates</th>
           <th>Type of company</th>
+          <th>Details</th>
         </tr>
       </thead>
       <tbody>
+        {% for row in data %}
         <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>john@example.com</td>
-          <td>john@example.com</td>
-          <td>john@example.com</td>
+            {% for cell in row[1:] %}
+                <td>{{ cell }}</td>
+            {% endfor %}
+            <td>
+              <form method="POST" action="/Faculty/DisplayList/{{row[0]}}">
+                  <input type="submit" value="Show more">
+              </form>
+            </td>
         </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>mary@example.com</td>
-          <td>john@example.com</td>
-          <td>john@example.com</td>
-        </tr>
-        <tr>
-          <td>July</td>
-          <td>Dooley</td>
-          <td>july@example.com</td>
-          <td>john@example.com</td>
-          <td>john@example.com</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
+    
   </div>
   <div class="container">
     <ul class="pagination">

@@ -4,9 +4,6 @@
     Omnia Dashboard
 {% endblock %}
 
-{% block styles %}
-  <link rel="stylesheet" href="../static/css/admin.css">
-{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -19,9 +16,13 @@
               <li><a href="#">3rd year</a></li>
               <li><a href="#">4th Year</a></li>
             </ul>
-            <p> 1. Srikar     1234</p>
-            <p> 1. Srikar     1234</p>
-            <p> 1. Srikar     1234</p>
+            <ol>
+              {% for row in data %}
+                <li>
+                  <p>{{row[0]}} {{row[1]}}</p>
+                </li>
+              {% endfor %}
+            </ol>
             <a href="/adminLeaderboard">See all</a>
         </div>
         
@@ -36,10 +37,14 @@
           <li><a href="#">3rd year</a></li>
           <li><a href="#">4th Year</a></li>
         </ul>
-        <p> 1. Srikar     1234</p>
-        <p> 1. Srikar     1234</p>
-        <p> 1. Srikar     1234</p>
-        <a>See all</a>
+        <ol>
+            {% for row in data %}
+              <li>
+                <p>{{row[0]}} {{row[1]}}</p>
+              </li>
+            {% endfor %}
+        </ol>
+        <a href="/adminLeaderboard">See all</a>
       </div>
       
     </div>
@@ -47,7 +52,7 @@
       <div class="container-fluid">
         <h3>CRT Stastics</h3>
         <p>View all student performance</p>
-        <a href="#" class="btn btn-primary">View Stastics</a>
+        <a href="/Faculty/CRTstatistics" class="btn btn-primary">View Stastics</a>
       </div>
     </div>
   </div>
