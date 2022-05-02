@@ -21,3 +21,12 @@
  .col-sm-3{
    padding-bottom: 2.5%;
  }
+
+
+.button{
+  padding: 0.5% 3% 0.5% 3%;
+  background-color: black;
+  color: #FCFCFC;
+}
+
+
