@@ -113,7 +113,7 @@ def ChangeUserPassByAdminValidate():
 def AdminComapnies():
     if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
-        countOfTR = 'select count(*) from placements as b where b.company_name = a.name and b.package = a.package and b.level_of_clearence = "TR"'
+        countOfTR = 'select count(*) from placements as b where b.company_name = a.name and b.package = a.package and b.level_of_clearence in ("TR","HR")'
         countOfPlace = 'select count(*) from placements as b where b.company_name = a.name and b.package = a.package and b.level_of_clearence = "CLR"'
         statement = f'select a.company_id,a.name,a.package, ({countOfTR}) as interviewCount,({countOfPlace}) as Cleared ,CASE WHEN a.campus_hiring THEN "On-Campus" ELSE "Off-Campus" END as placement from company as a;'
         mycursor.execute(statement)
@@ -127,7 +127,7 @@ def AdminComapnies():
 def admintable():
     if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
-        statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc '
+        statement = f'select a.userId,b.phone,b.email,a.codechef,a.codeforces,a.interviewbit,a.spoj,a.leetcode,a.overallScore from leaderboardtable as a inner join userdetails as b on a.userId = b.userId where scoredDate="{currentDate}" order by a.overallScore desc,a.userId'
         mycursor.execute(statement)
         data = mycursor.fetchall()
         data = tuple(data)
@@ -151,7 +151,7 @@ def adminFiltertable():
             #scored between start and end date
             currentStatement = f'select a.userid as userId,b.codechef-a.codechef as codechef,b.codeforces-a.codeforces as codeforces, b.interviewbit-a.interviewbit as interviewbit, b.spoj-a.spoj as spoj, b.leetcode-a.leetcode as leetcode, b.overallScore-a.overallScore as overallScore from ({startStatement}) as a,({endStatement}) as b where a.userId=b.userId'
 
-            finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc '
+            finalStatement = f'select c.userId,d.phone,d.email,c.codechef,c.codeforces,c.interviewbit,c.spoj,c.leetcode,c.overallScore from ({currentStatement}) as c inner join userdetails as d on c.userId = d.userId order by c.overallScore desc, c.userId'
             
             headings = ("Roll No.","Phone","email","CodeChef","CodeForces","InterviewBit","Spoj","LeetCode","Total Score")
             
@@ -173,7 +173,7 @@ def CrtStatistics():
         lOCStatement = 'CASE WHEN a.level_of_clearence = "CLR" THEN "Placed" ELSE a.level_of_clearence END'
         HiringStatement = 'select CASE WHEN b.campus_hiring THEN "On-Campus" ELSE "Off-Campus" END from company as b where b.name = a.company_name limit 1'
 
-        statement = f'select a.user_id,u.branch,u.email,a.company_name,a.package,({lOCStatement}),({countOfClearedStatement}),({countOfUnClearedStatement}),u.PassedOut,({HiringStatement}) as Hiring from placements as a inner join userdetails as u on a.user_id = u.userId;'
+        statement = f'select a.user_id,u.branch,u.email,a.company_name,a.package,({lOCStatement}),({countOfClearedStatement}),({countOfUnClearedStatement}),u.PassedOut,({HiringStatement}) as Hiring from placements as a inner join userdetails as u on a.user_id = u.userId order by a.user_id ASC;'
        
         print(statement)
         mycursor.execute(statement)
@@ -222,7 +222,7 @@ def applyFilters():
 
         innerStatement = f'select a.user_id as user,u.branch as branch,u.email,a.company_name as company,a.package as package,({lOCStatement}) as loc,({countOfClearedStatement}) as placedCount,({countOfUnClearedStatement}) as unplacedCount,u.PassedOut,({HiringStatement}) as Hiring from placements as a inner join userdetails as u on a.user_id = u.userId'
 
-        outerStatement = f' select * from ({innerStatement}) as innerTab {condition};'
+        outerStatement = f' select * from ({innerStatement}) as innerTab {condition}  order by user ASC;'
         print(outerStatement)
         mycursor.execute(outerStatement)
 
@@ -286,7 +286,7 @@ def getDataBasedOnCompanyId(companyId):
     branches = criteria[5]
 
     maxSal = f'select max(package) from placements as p where p.user_id = u.userId and p.level_of_clearence="CLR" group by p.user_id'
-    selectStatement = f'select u.userId,u.name,u.email,u.branch,u.passedOut from userdetails as u where u.gpa >= {gpa} and u.backlogs <= {backlogs} and LOCATE(u.branch,"{branches}") <> 0 and ({maxSal}) < {package} order by u.branch;' 
+    selectStatement = f'select u.userId,u.name,u.email,u.branch,u.passedOut from userdetails as u where u.gpa >= {gpa} and u.backlogs <= {backlogs} and LOCATE(u.branch,"{branches}") <> 0 and ({maxSal}) < {package} order by u.branch,u.userId ASC;' 
     mycursor.execute(selectStatement)
 
     data = tuple(mycursor.fetchall())
@@ -352,7 +352,7 @@ def studentSignUp():
 @app.route('/stu_register.html/validate', methods =["GET", "POST"])
 def studentRegistration():
     if request.method == "POST":
-        adminId = request.form.get("user_name")# getting input with name = user_name in HTML form 
+        userId = request.form.get("user_id")# getting input with name = user_name in HTML form 
         password = request.form.get("password")# getting input with name = password in HTML form  
         codechef = request.form.get("Codechef") 
         codeforces = request.form.get("Codeforces")
@@ -361,8 +361,14 @@ def studentRegistration():
         leetcode = request.form.get("Leetcode")
         email = request.form.get("email")
         phone = request.form.get("Phone")
+        branch = request.form.get("branch")
+        name = request.form.get("user_name")
+        cgpa = request.form.get("cgpa")
+        backlogs = request.form.get("backlogs")
+        yop = request.form.get("yop")
 
-        status = addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone)
+        cgpa = float(cgpa)
+        status = addStudent(userId,name,branch,cgpa,backlogs,yop,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone)
         if(status == "Successfull!!!"):
             return render_template('stu_login.html')
         return status
@@ -439,7 +445,7 @@ def myPerformance(userId):
     mycursor.execute('SELECT a.newRating FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid])
     val = mycursor.fetchall()
 
-    mycursor.execute('SELECT * FROM userdetails where userid LIKE %s',[uid])
+    mycursor.execute('SELECT codechefHandle, codeforcesHandle, interviewbitHandle, spojHandle, leetCodeHandle FROM userdetails where userid LIKE %s',[uid])
     handles = mycursor.fetchall()[0]
     #-------------
     labels = ["Accepted","WrongAnswer","TimeLimitExceed","CompilationError","RunTimeError"]

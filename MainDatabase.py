@@ -76,11 +76,11 @@ def isValidStudent(userId,password):
     else:
         return "successfull"
     
-def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone):
+def addStudent(userId,name,branch,cgpa,backlogs,yop,password,codechef,codeforces,InterviewBit,spoj,leetcode,email,phone):
     mydb,mycursor = connectdatabase()
     password = get_hashed_password(password)
 
-    selectStatement = f'select userId,userpassword from userdetails where userId="{adminId}"'
+    selectStatement = f'select userId,userpassword from userdetails where userId="{userId}"'
   
     #returning none when there is no such user exists
     try:
@@ -92,7 +92,7 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
     
     myresult = mycursor.fetchall()
     if(len(myresult) == 0):
-        insertStatement = f'insert Ignore into userdetails(userId,userPassword,codechefHandle,codeforcesHandle,interviewbitHandle,spojHandle,leetCodeHandle,email,phone) values("{adminId}","{password}","{codechef}","{codeforces}","{InterviewBit}","{spoj}","{leetcode}","{email}","{phone}")'
+        insertStatement = f'insert Ignore into userdetails(userId,name,branch,gpa,backlogs,passedOut,userPassword,codechefHandle,codeforcesHandle,interviewbitHandle,spojHandle,leetCodeHandle,email,phone) values("{userId}","{name}","{branch}",{cgpa},{backlogs},{yop},"{password}","{codechef}","{codeforces}","{InterviewBit}","{spoj}","{leetcode}","{email}","{phone}")'
   
         #returning none when there is no such user exists
         try:
@@ -102,7 +102,7 @@ def addStudent(adminId,password,codechef,codeforces,InterviewBit,spoj,leetcode,e
             return "failed!!"
         mydb.commit()
         scores.updateScore()
-        codeforcesScrap.main(adminId)
+        codeforcesScrap.main(userId)
         return "Successfull!!!"
     else:
         return "User Aleady Exists"

@@ -21,10 +21,18 @@
 							<h4 class="card-title" style="text-align: center;">Register Today!</h4>
 							<form action="/stu_register.html/validate" method="POST" class="my-login-validation" >
 								<div class="form-group">
-									<label for="user_name">Username [ College Roll no. ] <b style="color: red;">*</b></label>
-									<input id="user_name" type="text" class="form-control" name="user_name" required autofocus>
+									<label for="user_id">UserID [ College Roll no. ] <b style="color: red;">*</b></label>
+									<input id="user_id" type="text" class="form-control" name="user_id" required autofocus>
 									<div class="invalid-feedback">
 										Please enter your college Roll Number
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="user_name">Name [ Full Name ] <b style="color: red;">*</b></label>
+									<input id="user_name" type="text" class="form-control" name="user_name" required autofocus>
+									<div class="invalid-feedback">
+										Please enter your Full Name
 									</div>
 								</div>
 
@@ -41,6 +49,38 @@
 									<input id="email" type="email" class="form-control" name="email" required>
 									<div class="invalid-feedback">
 										Your email is invalid
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="cgpa">CGPA [ Till Now ] <b style="color: red;">*</b></label>
+									<input id="cgpa" type="text" class="form-control" name="cgpa" required autofocus>
+									<div class="invalid-feedback">
+										Please enter your CGPA
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="branch">Branch [CSE/ IT/ EEE/ ECE/ MECH] <b style="color: red;">*</b></label>
+									<input id="branch" type="text" class="form-control" name="branch" required autofocus>
+									<div class="invalid-feedback">
+										Please enter your Branch
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="backlogs">Backlogs [Total no.of backlogs] <b style="color: red;">*</b></label>
+									<input id="backlogs" type="number" class="form-control" name="backlogs" required autofocus>
+									<div class="invalid-feedback">
+										Please enter your Backlogs
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="yop">Year Of Passing <b style="color: red;">*</b></label>
+									<input id="yop" type="number" class="form-control" name="yop" required autofocus>
+									<div class="invalid-feedback">
+										Please enter your Year Of Passing
 									</div>
 								</div>
 

@@ -22,3 +22,4 @@ Werkzeug==2.0.2
 wheel==0.37.0
 bcrypt==3.2.0
 flask-mail==0.9.1
+openpyxl==3.0.9
