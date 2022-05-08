@@ -149,7 +149,7 @@
                     </div>
                  </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-15">
                <div class="card">
                   <div class="card-body">
                      <div class="row">
@@ -164,14 +164,30 @@
                            <hr>
                         </div>
                      </div>
-                     <h5>Company</h5>
-                    <h6 style="color : red">Microsoft</h6><hr>
-                    <h5>Level</h5>
-                    <h6 style="color : red">Cleared TR</h6><hr>
-                    <h5>CTC</h5>
-                    <h6 style="color : red">45 LPA</h6><hr>
-                    <h5>EXP</h5>
-                    <h6 style="color : red">Tell me about yourself</h6><hr>
+                     <table class="table  my-5 border-0">
+                        <tr class="table__header">
+                            <!-- {% for header in headings %}
+                            <th class="table__cell">{{ header }}</th>
+                            {% endfor %} -->
+                            <th>Company</th>
+                            <th>Level</th>
+                            <th>CTC</th>
+                            <th>Experience</th>
+                        </tr>
+                        <!-- {% for row in data %}
+                        <tr class="table__row">
+                            {% for cell in row %}
+                                <td clas="table__cell">{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %} -->
+                        <tr style="color : red; font-weight : bold">
+                            <td>Microsoft</td>
+                            <td>TR</td>
+                            <td>45 LPA</td>
+                            <td>About Yourself, Next smallest Palindrome, Boundary Traversal, Queue vs Stack</td>
+                        </tr>
+                    </table>
                   </div>
                </div>
                </div>
