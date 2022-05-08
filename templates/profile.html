@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <title>User Profile</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Omnia</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000/dashboard">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:5000/leaderboard">Leaderboard</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Login/SignUp
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="stu_login.html">Student</a></li>
+                  <li><a class="dropdown-item" href="fac_login.html">Faculty</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+    </nav><br>
+    <div class="container">
+        <div class="row">
+           <div class="col-md-5">
+              <div class="card">
+                 <div class="card-body">
+                    <div class="row">
+                       <div class="col">
+                          <center>
+                             <h4>User Details</h4>
+                          </center>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col">
+                          <center>
+                             <img width="100px" src="https://findicons.com/files/icons/1994/vista_style_business_and_data/256/users.png" />
+                          </center>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col">
+                          <hr style="border: 2px solid red;">
+                       </div>
+                    </div>
+                    <h5>User Id</h5>
+                    <h6 style="color : red">18R21A12A0</h6><hr>
+                    <h5>Name</h5>
+                    <h6 style="color : red">Mohammed Zikrullah</h6><hr>
+                    <h5>Email</h5>
+                    <h6 style="color : red">mohmmedzikrullah159@gmail.com</h6><hr>
+                    <h5>Phone</h5>
+                    <h6 style="color : red">+120-001-001</h6><hr>
+                    <h5>GPA</h5>
+                    <h6 style="color : red">10</h6><hr>
+                    <h5>Backlogs</h5>
+                    <h6 style="color : red">0</h6><hr>
+                    <h5>Branch</h5>
+                    <h6 style="color : red">Information Technology</h6><hr>
+                    <h5>Codechef Handle</h5>
+                    <h6 style="color : red">zikrullah1</h6><hr>
+                    <h5>Codeforce Handle</h5>
+                    <h6 style="color : red">Zikrulah</h6><hr>
+                    <h5>InterviewBit Handle</h5>
+                    <h6 style="color : red">mohmmed-zikrullah</h6><hr>
+                    <h5>Leetcode Handle</h5>
+                    <h6 style="color : red">mohmmedzikrullah159</h6><hr>
+                    <h5>SPOJ Handle</h5>
+                    <h6 style="color : red">Zikrullah</h6><hr>
+                 </div>
+              </div>
+              
+              <br>
+           </div>
+           <div class="col-md-7">
+              <div class="card">
+                 <div class="card-body">
+                    <div class="row">
+                       <div class="col">
+                          <center>
+                             <h4>Your Scores</h4>
+                          </center>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col">
+                          <hr>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col">
+                        <table class="table  my-5 border-0">
+                            <tr class="table__header">
+                                <!-- {% for header in headings %}
+                                <th class="table__cell">{{ header }}</th>
+                                {% endfor %} -->
+                                <th>Codechef</th>
+                                <th>Codeforces</th>
+                                <th>InterviewBit</th>
+                                <th>SPOJ</th>
+                                <th>Leetcode</th>
+                                <th>Overall Score</th>
+                                <th>Date</th>
+                            </tr>
+                            <!-- {% for row in data %}
+                            <tr class="table__row">
+                                {% for cell in row %}
+                                    <td clas="table__cell">{{ cell }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %} -->
+                            <tr style="color : red; font-weight : bold">
+                                <td>12355</td>
+                                <td>5000</td>
+                                <td>2500</td>
+                                <td>1214</td>
+                                <td>1110</td>
+                                <td>25000</td>
+                                <td>2000</td>
+                            </tr>
+                        </table>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-md-7">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col">
+                           <center>
+                              <h4>Your Placement Status</h4>
+                           </center>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <hr>
+                        </div>
+                     </div>
+                     <h5>Company</h5>
+                    <h6 style="color : red">Microsoft</h6><hr>
+                    <h5>Level</h5>
+                    <h6 style="color : red">Cleared TR</h6><hr>
+                    <h5>CTC</h5>
+                    <h6 style="color : red">45 LPA</h6><hr>
+                    <h5>EXP</h5>
+                    <h6 style="color : red">Tell me about yourself</h6><hr>
+                  </div>
+               </div>
+               </div>
+           </div>
+        </div>
+     </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</html>
