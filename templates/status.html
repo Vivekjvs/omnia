@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/dashboard.css">
-    <title>Omnia Dashboard</title>
+
+    <title>Status</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,56 +45,32 @@
             </form>
           </div>
         </div>
-      </nav><br>
-      <!--Heading and Sub heading-->
-      <h1 class="main display-1">#OMNIA</h1>
-      <h6 class="sub-head">A PLACEMENT READY PLATFORM</h6>
-      <!-- Start of the cards-->
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="card bg-warning">
-            <div class="card-body">
-              <h5 class="card-title">Student Leaderboard</h5>
-              <p class="card-text">Look at top performers from our college!                         </p>
-              <a href="leaderboard.html" class="btn btn-dark text-white">Check Leaderboard</a>
-            </div>
-          </div>
+    </nav><br>
+    <form class="w-50 p-5">
+        <div class="mb-5">
+          <label for="exampleInputEmail1" class="form-label">Company Name</label>
+          <input type="text" class="form-control" id="company_name" placeholder="e.g Amazon">
+          
         </div>
-        <div class="col-sm-4">
-          <div class="card bg-success text-white">
-            <div class="card-body">
-              <h5 class="card-title">My Performance</h5>
-              <p class="card-text">Analysis of your performance in top competetive coding platforms</p>
-              <a href="#" class="btn btn-dark text-white">Check Performance</a>
-            </div>
-          </div>
+        <div class="mb-3">
+          <label for="level" class="form-label">Level of clearance</label>
+          <input type="text" class="form-control" id="level" placeholder="e.g Tr qualified">
         </div>
-        <div class="col-sm-4">
-          <div class="card bg-info">
-            <div class="card-body">
-              <h5 class="card-title">Contests</h5>
-              <p class="card-text">A list of all the coding contests happening around you! Participate Today!</p>
-              <a href="#" class="btn btn-dark text-white">Show Contests</a>
-            </div>
+        <div class="mb-3">
+            <label for="level" class="form-label">CTC Offered</label>
+            <input type="text" class="form-control" id="level" placeholder="e.g 45 LPA">
           </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="card bg-info">
-            <div class="card-body">
-              <h5 class="card-title">Recruiting companies</h5>
-              <p class="card-text">See all companies recruiting in your college!</p>
-              <a href="companies.html" class="btn btn-dark text-white">See list</a>
-            </div>
+          <div class="mb-3">
+            <label for="level" class="form-label">Expectation</label>
+            <input type="text" class="form-control" id="level" placeholder="e.g Confident">
           </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Happy</label>
         </div>
-      </div>
-      
-      
-      </div>
-      
-      <br>
-      <!--  -->
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-    </html>
+</html>
