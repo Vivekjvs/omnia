@@ -1,0 +1,35 @@
+{% extends 'basePage.html' %}
+
+{% block title %}
+Update Status
+{% endblock %}
+
+{% block content %}
+
+<form class="w-50 p-5" action="/updateCompanyStatus" method="POST">
+    <div class="mb-5">
+      <label for="exampleInputEmail1" class="form-label">Company Name</label>
+      <input name="company" type="text" value="{{companyName}}" class="form-control" id="company_name" required>
+    </div>
+    <div class="mb-3">
+      <label for="level" class="form-label">Level of clearance (OA:Online Assessment,TR:Technical Round,HR:HR Round,CLR:Cleared)</label>
+      <input name="level" type="text" class="form-control" id="level" placeholder="TR" maxlength="3"required>
+    </div>
+    <div class="mb-3">
+        <label for="level" class="form-label">CTC Offered (in LPA)</label>
+        <input name="ctc" type="number" class="form-control" id="level" placeholder="e.g 45" required>
+      </div>
+      <div class="mb-3">
+        <label for="level" class="form-label">Experience</label>
+        <input name="exp" type="text" class="form-control" id="level" placeholder="Tell us how it went!" required>
+      </div>
+    <!-- <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Happy</label>
+    </div> -->
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+{% endblock %}

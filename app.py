@@ -482,6 +482,83 @@ def currentActiveContest():
     platforms = ["hackerrank.com","codechef.com","codeforces.com","hackerearth.com","leetcode.com","spoj.com"]
     return render_template("activeContests.html",platforms=platforms,contestList = ActiveContestsList)
 
+@app.route('/profile')
+def studentProfile():
+    if session.get("user") is not None:
+        uid  = session.get("user")
+        mydb,mycursor = connectdatabase()
+        statement = f'select * from userdetails where userId="{uid}"'
+        mycursor.execute(statement)
+        data = mycursor.fetchall()
+        data = list(data)
+        
+        scores_statement = f'select * from leaderboardtable where userId="{uid}" and scoredDate="{currentDate}"'
+        mycursor.execute(scores_statement)
+        scores = mycursor.fetchall()
+        scores = list(scores)
+
+        placement_statement = f'select company_name,level_of_clearence,package,exp from placements where user_id="{uid}"'
+        mycursor.execute(placement_statement)
+        placements = mycursor.fetchall()
+        placements = list(placements)
+
+        headings = ["Company","Level","CTC","Experience"]
+
+        print(placements)        
+        return render_template('student_profile.html',data = data,scores = scores,headings = headings,placements = placements)
+    return redirect('/')
+
+@app.route('/eligibleCompanies')
+def studentEligibleCompanies():
+    if session.get("user") is not None:
+        uid = session.get("user")
+        mydb,mycursor = connectdatabase()
+        statement = f'select * from userdetails where userId="{uid}"'
+        mycursor.execute(statement)
+        data = mycursor.fetchall()
+        data = list(data)
+        
+        statement = f'select max(package) from placements where "{uid}"=user_id and level_of_clearence="CLR"'
+        mycursor.execute(statement)
+        package_statement = mycursor.fetchall()
+        package_statement = list(package_statement)[0]
+        package = package_statement[0]-1.5
+
+        statement = f'select name,package,role,campus_hiring,url from company where company.package>={package} and {data[0][2]}>=company.gpa and {data[0][3]}<=company.backlogs and locate("{data[0][4]}",company.branch)>0'
+        mycursor.execute(statement)
+        companies = mycursor.fetchall()
+        companies = list(companies)
+
+        return render_template('student_companies.html',companies=companies)
+    return redirect('/')
+
+@app.route('/companyStatusForm/<companyName>')
+def companyStatusForm(companyName):
+    if session.get("user") is not None:
+        return render_template('company_status.html',companyName=companyName)
+    return redirect('/')
+
+@app.route('/updateCompanyStatus',methods=['POST'])
+def updateCompanyStatus():
+    if session.get("user") is not None:
+        if request.method == "POST":
+            company = request.form.get("company")
+            ctc = request.form.get("ctc")
+            level = request.form.get("level")
+            exp = request.form.get("exp")
+            uid = session.get("user")
+            try:
+                mydb,mycursor = connectdatabase()
+                statement = f'insert into placements values("{uid}","{company}","{level}",{ctc},"{exp}")'
+                print(statement)
+                mycursor.execute(statement)
+                mydb.commit()
+            except:
+                print("ERROR")
+                return redirect('/profile')
+        return redirect('/profile')
+    return redirect('/')
+
 @app.route('/reset_password',methods=['GET','POST'])
 def reset_request():
     if request.method == "POST":
