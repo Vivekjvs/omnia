@@ -19,7 +19,7 @@
             <ol>
               {% for row in data %}
                 <li>
-                  <p>{{row[0]}} {{row[1]}}</p>
+                  <p>{{row[0]}}   {{row[1]}}</p>
                 </li>
               {% endfor %}
             </ol>
@@ -30,7 +30,7 @@
       
     <div class="col-sm-4">
       <div class="container-fluid">
-        <h3>Student Leaderboard</h3>
+        <h3>Student Performence Board</h3>
         <ul class="nav nav-pills">
           <li class="active"><a href="#">1st year</a></li>
           <li><a href="#">2nd Year</a></li>
@@ -38,9 +38,9 @@
           <li><a href="#">4th Year</a></li>
         </ul>
         <ol>
-            {% for row in data %}
+            {% for row in data2 %}
               <li>
-                <p>{{row[0]}} {{row[1]}}</p>
+                <p>{{row[0]}}   {{row[1]}}</p>
               </li>
             {% endfor %}
         </ol>

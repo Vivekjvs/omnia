@@ -7,7 +7,7 @@ from MainDatabase import *
 from flask.templating import render_template
 import threading,time
 from scores import updateScore
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from codeforcesProblems_ContestDetails import updateCodeforcesProblems_Contests
 from ActiveContests import getActiveContests
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -63,11 +63,18 @@ def Facdashboard():
     if session.get("faculty") is not None:
         mydb,mycursor = connectdatabase()
 
-        selectStatement = f'select userId,overallScore from leaderboardtable where ScoredDate="{currentDate}" order by overallScore DESC limit 3;'
-        mycursor.execute(selectStatement)
+        selectStatement = f'select userId,overallScore from leaderboardtable where ScoredDate="{currentDate}" order by overallScore DESC limit 3'
+        mycursor.execute(selectStatement+";")
+        top3Scorers = tuple(mycursor.fetchall())
 
-        data = tuple(mycursor.fetchall())
-        return render_template('FacHomePage.html',data= data)
+        past30Days = (datetime.now() - timedelta(30)).strftime("%Y-%m-%d")
+        past30Statement = f'select userId,overallScore from leaderboardtable where ScoredDate="{past30Days}"'
+        maxStreakStatement = f'select a.userId as userId,a.overallScore-b.overallScore as overallScore from ({selectStatement}) as a inner join ({past30Statement}) as b on a.userId=b.userId order by overallScore DESC limit 3;'
+        
+        mycursor.execute(maxStreakStatement)
+        recentTop3 = tuple(mycursor.fetchall())
+
+        return render_template('FacHomePage.html',data= top3Scorers,data2 = recentTop3)
     return redirect('/')
 
 @app.route('/fac_register.html', methods =["GET", "POST"])
@@ -175,7 +182,7 @@ def CrtStatistics():
 
         statement = f'select a.user_id,u.branch,u.email,a.company_name,a.package,({lOCStatement}),({countOfClearedStatement}),({countOfUnClearedStatement}),u.PassedOut,({HiringStatement}) as Hiring from placements as a inner join userdetails as u on a.user_id = u.userId order by a.user_id ASC;'
        
-        print(statement)
+        # print(statement)
         mycursor.execute(statement)
         data = mycursor.fetchall()
         data = tuple(data)
@@ -196,7 +203,7 @@ def applyFilters():
         unplacedCount = request.form.get("unplacedCount")
         #yop = request.form.get("yop")
         condition = 'where  1 = 1'
-        print(userId)
+        # print(userId)
         if(userId != ""):
             condition += f' and user = "{userId}"'
         if(branch != ""):
@@ -223,7 +230,7 @@ def applyFilters():
         innerStatement = f'select a.user_id as user,u.branch as branch,u.email,a.company_name as company,a.package as package,({lOCStatement}) as loc,({countOfClearedStatement}) as placedCount,({countOfUnClearedStatement}) as unplacedCount,u.PassedOut,({HiringStatement}) as Hiring from placements as a inner join userdetails as u on a.user_id = u.userId'
 
         outerStatement = f' select * from ({innerStatement}) as innerTab {condition}  order by user ASC;'
-        print(outerStatement)
+        # print(outerStatement)
         mycursor.execute(outerStatement)
 
         data = mycursor.fetchall()
@@ -504,7 +511,7 @@ def studentProfile():
 
         headings = ["Company","Level","CTC","Experience"]
 
-        print(placements)        
+        # print(placements)        
         return render_template('student_profile.html',data = data,scores = scores,headings = headings,placements = placements)
     return redirect('/')
 
@@ -550,7 +557,7 @@ def updateCompanyStatus():
             try:
                 mydb,mycursor = connectdatabase()
                 statement = f'insert into placements values("{uid}","{company}","{level}",{ctc},"{exp}")'
-                print(statement)
+                # print(statement)
                 mycursor.execute(statement)
                 mydb.commit()
             except:
