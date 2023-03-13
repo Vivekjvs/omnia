@@ -1,0 +1,102 @@
+from logging import debug
+from types import MethodType
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+import json
+import time
+
+app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '4321'
+app.config['MYSQL_DB'] = 'codingprofilesfeedback'
+
+mysql = MySQL(app)
+
+
+@app.route("/chart/<userid>", methods=['GET','POST'])
+def index(userid):
+    #if MethodType == 'GET' or MethodType == 'POST':
+        uid = userid
+        cursor = mysql.connection.cursor();
+        cursor.execute("SELECT `Accepted`,`WrongAnswer`,`TimeLimitExceed`,`CompilationError`,`RunTimeError` FROM usersubmissions WHERE userId LIKE  %s",[uid])
+        data = cursor.fetchall()
+        values = list(data)
+        
+        cursor = mysql.connection.cursor();
+        cursor.execute('SELECT b.ContestTimeStamp FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid]);
+        lab = cursor.fetchall()
+        cursor2 = mysql.connection.cursor();
+        cursor2.execute('SELECT a.contestRating FROM usercontestdetails as a inner join contestdetails as b on a.contestId=b.contestId where a.userid LIKE %s and a.platform="codeforces"',[uid])
+        val = cursor2.fetchall()
+        #-------------
+        labels = ["Accepted","WrongAnswer","TimeLimitExceed","CompilationError","RunTimeError"]
+
+        cursor = mysql.connection.cursor();
+        cursor.execute("SELECT * FROM leaderboardtable WHERE userId LIKE %s",[uid])
+        leader = cursor.fetchall()
+        tags=['Binary Search','Binary Tree','Matrices','Arrays','Probabilities','Implementation','Math','Backtracking','Number Theory','Divide and Conquer','Brute Force','Dynamic Programming','Graphs','Trees','Depth First Search','Breadth First Search','Bit Manipulation','Strings','Data Structures','Games','Greedy','Hashing','Sorting','Two Pointers','Others']
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.binarySearch=true",[uid])
+        bs = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.binaryTree=true",[uid])
+        bt = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.matrices=true",[uid])
+        mat = cursor.fetchall();
+        
+        
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.arrays=true",[uid])
+        arr = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.probabilities=true",[uid])
+        prob = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.implementation=true",[uid])
+        implementation = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.math=true",[uid])
+        math = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.backtracking=true",[uid])
+        backtracking = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.numberTheory=true",[uid])
+        number = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.divideAndConquer=true",[uid])
+        dandc = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bruteforce=true",[uid])
+        brute = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dp=true",[uid])
+        dp = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.graphs=true",[uid])
+        graph = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.trees=true",[uid])
+        trees = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dfs=true",[uid])
+        dfs = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bfs=true",[uid])
+        bfs = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.bitManipulation=true",[uid])
+        bit = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.strings=true",[uid])
+        strings = cursor.fetchall();
+        
+
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.dataStructures=true",[uid])
+        ds = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.games=true",[uid])
+        games = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.greedy=true",[uid])
+        greedy = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.hashing=true",[uid])
+        hashing = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.sorting=true",[uid])
+        sorting = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.twopointers=true",[uid])
+        tp = cursor.fetchall();
+        cursor.execute("SELECT a.problemName,a.problemId,a.problemLink FROM problemdetails as a inner join userproblemdetails as b ON a.problemId=b.problemId WHERE b.userId LIKE %s and b.verdict='ACCEPTED' and b.Others=true",[uid])
+        others = cursor.fetchall();
+        
+
+        return render_template("chart.html", labels = labels, values = values, val=val, lab = lab, leader=leader, uid=uid,tags=tags, bs=bs, bt=bt, mat=mat,arr=arr,prob=prob,implementation=implementation,math=math,backtracking=backtracking,number=number,dandc=dandc,brute=brute,dp=dp,graph=graph,trees=trees,dfs=dfs,bfs=bfs,bit=bit,strings=strings,ds=ds,games=games,greedy=greedy,hashing=hashing,sorting=sorting,tp=tp,others=others)
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
